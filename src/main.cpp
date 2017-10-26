@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
     login Login;
     Login.show();
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("SQLITE");
-    db.setDatabaseName("");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("res/NFL.db");
 
     return a.exec();
 }

@@ -6,8 +6,7 @@ login::login(QWidget *parent) :
     ui(new Ui::login)
 {
     ui->setupUi(this);
-    addAccount("admin", "password", true);
-    addAccount("Bryce","Bryce",false);
+    addAccount("A", "A", true);
 }
 
 login::~login()
@@ -25,37 +24,29 @@ bool login::isAccount(QString nameIn, QString passIn)
     //this will be returned as the state of the inputted variables
     bool isValid = false;
 
-    for(int index = 0; index < accounts.size(); index++)
-    {
-        if(nameIn == accounts[index].name && passIn == accounts[index].password)
-        {
+    for (int index = 0; index < accounts.size(); index++) {
+        if (nameIn == accounts[index].name && passIn == accounts[index].password)
             isValid = true;
-        }
     }
+
     return isValid;
 }
 
-bool login::isAdmin(QString nameIn,QString passIn)
+bool login::isAdmin(QString nameIn, QString passIn)
 {
-
     bool isAdmin = false; //returns true if the user is infact an admin
     int accountIndex;     //index of the account searched for
 
-    for(int i = 0; i < accounts.size(); i++)
-    {
-        if(accounts[i].name == nameIn)
-        {
+    for (int i = 0; i < accounts.size(); i++) {
+        if (accounts[i].name == nameIn)
             accountIndex = i;
-        }
     }
 
-    if(isAccount(nameIn,passIn))
-    {
-       if(accounts.at(accountIndex).okAdmin == true)
-       {
+    if (isAccount(nameIn,passIn)) {
+       if (accounts.at(accountIndex).okAdmin == true)
            isAdmin = true;
-       }
     }
+
     return isAdmin;
 }
 
@@ -78,16 +69,6 @@ void login::on_LoginButton_clicked()
     QString inName = ui->UserNameInput->text();
     QString inPass = ui->PasswordInput->text();
 
-    if(isAccount(inName, inPass))
-    {
-        if(isAdmin(inName,inPass))
-        {
-            this->close();
-        }
-        else
-        {
-            this->close();
-        }
-
-    }
+    if (isAccount(inName, inPass) && isAdmin(inName, inPass))
+        this->close();
 }
