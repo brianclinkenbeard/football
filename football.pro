@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = football
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++11
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -26,12 +28,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES +=\
     src/login.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/adminwindow.cpp
 
 HEADERS  += \
     src/login.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/adminwindow.h
 
 FORMS    += \
     src/login.ui \
-    src/mainwindow.ui
+    src/mainwindow.ui \
+    src/adminwindow.ui

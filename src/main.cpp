@@ -6,11 +6,12 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    //"res/NFL.db"
+    db.setDatabaseName("res/NFL.db");
+
     login Login;
     Login.show();
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("res/NFL.db");
 
     return a.exec();
 }

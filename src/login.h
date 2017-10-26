@@ -1,6 +1,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
+#include "adminwindow.h"
 #include <QDialog>
 #include <QVector>
 
@@ -44,7 +45,7 @@ private:
     Ui::login *ui;
     QVector<user> accounts; //vector holding user login info
                             //using struct:user
-
+    AdminWindow adminWindow;
 };
 
 #endif // LOGIN_H

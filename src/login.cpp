@@ -66,6 +66,8 @@ void login::on_LoginButton_clicked()
     QString inName = ui->UserNameInput->text();
     QString inPass = ui->PasswordInput->text();
 
-    if (isAccount(inName, inPass) && isAdmin(inName, inPass))
+    if (isAccount(inName, inPass) && isAdmin(inName, inPass)) {
         this->close();
+        adminWindow.show();
+    }
 }
