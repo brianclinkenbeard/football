@@ -58,7 +58,6 @@ void login::addAccount(QString nameIn, QString passIn, bool adminIn)
     insert.okAdmin = adminIn;
     // adds the inserted variables into the struct
     accounts.push_back(insert);
-
 }
 
 
