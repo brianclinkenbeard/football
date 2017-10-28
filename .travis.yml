@@ -1,0 +1,12 @@
+dist: trusty
+sudo: required
+language: cpp
+before_install:
+ - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+ - sudo apt-add-repository -y ppa:beineri/opt-qt591-trusty
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq g++-6 qt59tools qt59svg qt59webengine qt59script
+ - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 50
+script:
+ - /opt/qt59/bin/qmake $(basename $TRAVIS_REPO_SLUG).pro
+ - make
