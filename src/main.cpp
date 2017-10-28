@@ -13,5 +13,10 @@ int main(int argc, char *argv[])
     login Login;
     Login.show();
 
+    //Will integrate with the login window later
+    //just need to test my code.
+    MainWindow window;
+    window.show();
+
     return a.exec();
 }
