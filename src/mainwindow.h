@@ -8,6 +8,7 @@
 #include <QVector>
 #include <QSqlQueryModel>
 #include <QMessageBox>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,8 @@ public:
 
 private slots:
     void on_btn_go_to_stadium_capacity_clicked();
+
+    void on_btn_stadium_capacity_back_clicked();
 
 private:
     Ui::MainWindow *ui;
