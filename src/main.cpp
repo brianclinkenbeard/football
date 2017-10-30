@@ -10,11 +10,8 @@ int main(int argc, char *argv[])
     //"res/NFL.db"
     db.setDatabaseName("res/NFL.db");
 
-    login Login;
-    Login.show();
-
-    //Will integrate with the login window later
-    //just need to test my code.
+    // Will integrate with the login window later
+    // just need to test my code.
     MainWindow window;
     window.show();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
-    <height>564</height>
+    <width>1152</width>
+    <height>864</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,20 +18,33 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stWid">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_home">
        <widget class="QPushButton" name="btn_go_to_stadium_capacity">
         <property name="geometry">
          <rect>
-          <x>300</x>
+          <x>460</x>
           <y>130</y>
-          <width>141</width>
+          <width>161</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string>Stadium Capacity</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_teams_stadiums">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>180</y>
+          <width>161</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Teams and Stadiums</string>
         </property>
        </widget>
       </widget>
@@ -108,6 +121,102 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page_teams_stadiums">
+       <widget class="QComboBox" name="comboBox_filters">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>10</y>
+          <width>203</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>All Teams</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>American Baseball Conference</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>National Baseball Conference</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QComboBox" name="comboBox_selection">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>82</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Teams</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Stadiums</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Players</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Surfaces</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QTableView" name="tableView_teams_stadiums">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>50</y>
+          <width>1111</width>
+          <height>731</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_filter">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>11</y>
+          <width>51</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Filter:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_team_stadium_back">
+        <property name="geometry">
+         <rect>
+          <x>1029</x>
+          <y>10</y>
+          <width>91</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Back</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -117,8 +226,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>625</width>
-     <height>20</height>
+     <width>1152</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
