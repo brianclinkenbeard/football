@@ -14,9 +14,19 @@ AdminWindow::AdminWindow(QWidget *parent) :
 
 
     QVector<QString> teamNames;
+
     QSqlQuery *nameQuery = new QSqlQuery(db);
     QSqlQuery *souvenirQuery = new QSqlQuery(db);
+    QSqlQuery *newTeamQuery = new QSqlQuery(db);
     QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQueryModel * newTeamModel = new QSqlQueryModel();
+
+    newTeamQuery->prepare("SELECT * FROM TeamInfoExpansion");
+    newTeamQuery->exec();
+
+    newTeamModel->setQuery(*newTeamQuery);
+    ui->newTeamTableView->setModel(newTeamModel);
+    ui->newTeamTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     nameQuery->prepare("select distinct Team FROM Souvenirs");
     if(nameQuery->exec())
@@ -191,4 +201,9 @@ void AdminWindow::on_updateSouvenirButton_clicked()
         QMessageBox::information(this,"Souvenir not successfully Updated", "Souvenir Not Successfully Updated", QMessageBox::Ok);
     }
     ui->modifyBox->hide();
+}
+
+void AdminWindow::on_addTeamButton_clicked()
+{
+
 }

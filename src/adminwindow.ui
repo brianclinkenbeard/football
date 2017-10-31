@@ -205,9 +205,20 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>New Stadiums</string>
+       <string>New Teams</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3"/>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QTableView" name="newTeamTableView"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="addTeamButton">
+         <property name="text">
+          <string>Add Team</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

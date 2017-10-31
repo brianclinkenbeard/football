@@ -39,6 +39,8 @@ private slots:
 
     void on_updateSouvenirButton_clicked();
 
+    void on_addTeamButton_clicked();
+
 private:
     Ui::AdminWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "login.h"
 #include <QMainWindow>
 #include <QDialog>
 #include <QSqlDatabase>
@@ -36,9 +37,12 @@ private slots:
 
     void on_pushButton_team_stadium_back_clicked();
 
+    void on_adminLoginButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
+    login Login;
 
     // helper functions
     enum teams { ALL, AFC, NFC };

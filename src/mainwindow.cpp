@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // stretch columns equally to fit width of table
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    QWidget::setWindowTitle("Baseball");
 }
 
 MainWindow::~MainWindow()
@@ -173,4 +171,9 @@ void MainWindow::populate_surfaces()
 void MainWindow::on_pushButton_team_stadium_back_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_home);
+}
+
+void MainWindow::on_adminLoginButton_clicked()
+{
+    Login.show();
 }
