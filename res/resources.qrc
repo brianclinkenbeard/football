@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>baseball.png</file>
+        <file>baseball.wav</file>
     </qresource>
 </RCC>

@@ -11,6 +11,7 @@
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSound>
 
 namespace Ui {
 class MainWindow;
@@ -45,6 +46,7 @@ private:
     login Login;
 
     // helper functions
+    void play_sound();
     enum teams { ALL, AFC, NFC };
     void populate_teams(teams selection);
     void populate_stadiums(bool open_roof);
