@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stWid">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_home">
        <widget class="QPushButton" name="btn_go_to_stadium_capacity">
@@ -47,6 +47,25 @@
          <string>Teams and Stadiums</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>160</y>
+          <width>1081</width>
+          <height>631</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../res/resources.qrc">:/baseball.png</pixmap>
+        </property>
+       </widget>
+       <zorder>label_2</zorder>
+       <zorder>btn_go_to_stadium_capacity</zorder>
+       <zorder>pushButton_teams_stadiums</zorder>
       </widget>
       <widget class="QWidget" name="page_stadium_capacity">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -219,7 +238,7 @@
      <x>0</x>
      <y>0</y>
      <width>1152</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -234,6 +253,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

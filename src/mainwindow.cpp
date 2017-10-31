@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // stretch columns equally to fit width of table
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QWidget::setWindowTitle("Baseball");
 }
 
 MainWindow::~MainWindow()

@@ -40,3 +40,6 @@ FORMS    += \
     src/login.ui \
     src/mainwindow.ui \
     src/adminwindow.ui
+
+RESOURCES += \
+    res/resources.qrc
