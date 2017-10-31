@@ -122,100 +122,92 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_teams_stadiums">
-       <widget class="QComboBox" name="comboBox_filters">
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>10</y>
-          <width>203</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>All Teams</string>
-         </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="1">
+           <layout class="QFormLayout" name="formLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_filter">
+              <property name="text">
+               <string>Filter:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="comboBox_filters">
+              <item>
+               <property name="text">
+                <string>All Teams</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>American Baseball Conference</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>National Baseball Conference</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="pushButton_team_stadium_back">
+            <property name="text">
+             <string>Back</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QComboBox" name="comboBox_selection">
+            <item>
+             <property name="text">
+              <string>Teams</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Stadiums</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Players</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Surfaces</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
-        <item>
-         <property name="text">
-          <string>American Baseball Conference</string>
-         </property>
+        <item row="1" column="0">
+         <widget class="QTableView" name="tableView_teams_stadiums"/>
         </item>
-        <item>
-         <property name="text">
-          <string>National Baseball Conference</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QComboBox" name="comboBox_selection">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>82</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>Teams</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Stadiums</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Players</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Surfaces</string>
-         </property>
-        </item>
-       </widget>
-       <widget class="QTableView" name="tableView_teams_stadiums">
-        <property name="geometry">
-         <rect>
-          <x>11</x>
-          <y>50</y>
-          <width>1111</width>
-          <height>731</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_filter">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>11</y>
-          <width>51</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Filter:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_team_stadium_back">
-        <property name="geometry">
-         <rect>
-          <x>1029</x>
-          <y>10</y>
-          <width>91</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Back</string>
-        </property>
-       </widget>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -227,7 +219,7 @@
      <x>0</x>
      <y>0</y>
      <width>1152</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
