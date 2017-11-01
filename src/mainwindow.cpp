@@ -83,7 +83,7 @@ void MainWindow::on_comboBox_selection_currentIndexChanged(int index)
     // TODO: maybe rewrite helper functions into one so we dont have a bunch of reused code
     switch (index) {
     case 0: // teams
-        ui->comboBox_filters->addItems({ "All Teams", "American Baseball Conference", "National Baseball Conference" });
+        ui->comboBox_filters->addItems({ "All Teams", "American Football Conference", "National Football Conference" });
         break;
     case 1: // stadiums
         ui->comboBox_filters->addItems({ "All Stadiums", "Open Roof Stadiums" });
