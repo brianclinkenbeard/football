@@ -25,7 +25,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btn_go_to_stadium_capacity_clicked()
 {
-    play_sound();
 
     ui->stWid->setCurrentWidget(ui->page_stadium_capacity);
     QSqlQuery *query = new QSqlQuery(db);
@@ -56,7 +55,6 @@ void MainWindow::on_btn_go_to_stadium_capacity_clicked()
 
 void MainWindow::on_btn_stadium_capacity_back_clicked()
 {
-    play_sound();
 
     //Deletes content of table and lineEdit
     QSqlQueryModel *model = new QSqlQueryModel();
@@ -67,7 +65,6 @@ void MainWindow::on_btn_stadium_capacity_back_clicked()
 
 void MainWindow::on_pushButton_teams_stadiums_clicked()
 {
-    play_sound();
 
     ui->stWid->setCurrentWidget(ui->page_teams_stadiums);
 
@@ -181,14 +178,12 @@ void MainWindow::populate_surfaces()
 
 void MainWindow::on_pushButton_team_stadium_back_clicked()
 {
-    play_sound();
 
     ui->stWid->setCurrentWidget(ui->page_home);
 }
 
 void MainWindow::on_adminLoginButton_clicked()
 {
-    play_sound();
 
     Login.show();
 }
