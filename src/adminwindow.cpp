@@ -46,10 +46,17 @@ AdminWindow::AdminWindow(QWidget *parent) :
         ui->addSouvenirTeamName->addItem(teamNames[i]);
         ui->deleteSouvenirTeamName->addItem(teamNames[i]);
         ui->modifySouvenirTeamName->addItem(teamNames[i]);
+        ui->teamNameComboBox->addItem(teamNames[i]);
     }
 
+    QSqlQuery *teamQuery = new QSqlQuery(db);
+    teamQuery->prepare("SELECT * FROM TeamInfo ORDER by TeamName asc");
+    teamQuery->exec();
 
-
+    model->setQuery(*teamQuery);
+    ui->editTeamsView->setModel(model);
+    ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 AdminWindow::~AdminWindow()
@@ -110,7 +117,7 @@ void AdminWindow::on_deleteSouvenirTeamName_activated(const QString &arg1)
 void AdminWindow::on_modifySouvenirTeamName_activated(const QString &arg1)
 {
     ui->modifySouvenirName->clear();
-    QVector<QString> souvenirNames;
+    QQueue<QString> souvenirNames;
     //sets up the querys
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("SELECT Item FROM Souvenirs WHERE Team == (:name)");
@@ -118,7 +125,7 @@ void AdminWindow::on_modifySouvenirTeamName_activated(const QString &arg1)
     query->exec();
 
     while (query->next()) {
-        souvenirNames.push_back(query->value(0).toString());
+        souvenirNames.enqueue(query->value(0).toString());
     }
 
     for (int i = 0; i < souvenirNames.size(); i++) {
@@ -142,13 +149,9 @@ void AdminWindow::on_sumbitSouvenirButton_clicked()
     query->bindValue(":cost", cost);
 
     if(query->exec())
-    {
         QMessageBox::information(this,"Souvenir successfully Added", "Souvenir Successfully Added", QMessageBox::Ok);
-    }
     else
-    {
         QMessageBox::information(this,"Souvenir not successfully Added", "Souvenir Not Successfully Added", QMessageBox::Ok);
-    }
 
     ui->addSouvenirName->clear();
     ui->addBox->hide();
@@ -166,13 +169,9 @@ void AdminWindow::on_deleteSouvenirButtonBox_clicked()
     query->bindValue(":name", name);
 
     if(query->exec())
-    {
         QMessageBox::information(this,"Souvenir successfully deleted", "Souvenir Successfully Deleted", QMessageBox::Ok);
-    }
     else
-    {
         QMessageBox::information(this,"Souvenir not successfully deleted", "Souvenir Not Successfully Deleted", QMessageBox::Ok);
-    }
 
     ui->deleteBox->hide();
 }
@@ -193,17 +192,60 @@ void AdminWindow::on_updateSouvenirButton_clicked()
     query->bindValue(":cost",cost);
 
     if(query->exec())
-    {
         QMessageBox::information(this,"Souvenir successfully Updated", "Souvenir Successfully Updated", QMessageBox::Ok);
-    }
     else
-    {
         QMessageBox::information(this,"Souvenir not successfully Updated", "Souvenir Not Successfully Updated", QMessageBox::Ok);
-    }
     ui->modifyBox->hide();
 }
 
 void AdminWindow::on_addTeamButton_clicked()
 {
+    QSqlQuery *insertQuery = new QSqlQuery(db);
+    insertQuery->prepare("INSERT INTO TeamInfo SELECT * From TeamInfoExpansion");
+    if(insertQuery->exec())
+        ui->addTeamButton->setEnabled(false);
+    else
+        QMessageBox::critical(this,"Failure to add new teams","Failure to add new teams",QMessageBox::Ok);
+}
+
+void AdminWindow::on_changeTeamInfoButton_clicked()
+{
+    QString teamName = ui->teamNameComboBox->currentText();
+    QString stadiumName = ui->newStadiumName->text();
+    int capacity = ui->newCapacityBox->value();
+
+    QString cap = QString::number(capacity);
+
+//    unsigned int length = cap.length(); // Get the length of the string, so we know when we have to stop
+//    QString finalString; // Will be our output
+//    unsigned int commaOffset = length%3; // Get the comma offset
+//    for (unsigned int i = 0; i < length; ++i) {
+//        // If our Index%3 == CommaOffset and this isn't first character, add a comma
+//        if(i%3 == commaOffset && i)
+//            finalString += ','; // Add the comma
+
+//        finalString.append(cap[i]); // Add the original character
+//    }
+
+
+    QSqlQuery *updateQuery = new QSqlQuery(db);
+    QSqlQuery *teamQuery = new QSqlQuery(db);
+    QSqlQueryModel * model = new QSqlQueryModel();
+
+    //Updates the current info
+    updateQuery->prepare("UPDATE TeamInfo SET StadiumName = (:stadiumName), SeatingCapacity = (:capacityNum) WHERE Team = (:team)");
+    updateQuery->bindValue(":stadiumName",stadiumName);
+    updateQuery->bindValue(":capacityNum",cap);
+    updateQuery->bindValue(":team",teamName);
+    updateQuery->exec();
+
+    //Shows the updated db info
+    teamQuery->prepare("SELECT * FROM TeamInfo ORDER by TeamName asc");
+    teamQuery->exec();
+
+    model->setQuery(*teamQuery);
+    ui->editTeamsView->setModel(model);
+    ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 }

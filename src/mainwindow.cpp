@@ -13,11 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
-void MainWindow::play_sound()
-{
-    QSound::play(":/baseball.wav");
-}
-
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -144,8 +139,10 @@ void MainWindow::populate_stadiums(bool open_roof)
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
     proxyModel->setFilterKeyColumn(2); // StadiumRoofType
-    if (open_roof)
+    if (open_roof) {
         proxyModel->setFilterRegExp("Open");
+        ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(proxyModel->rowCount()));
+    }
 
     ui->tableView_teams_stadiums->setModel(proxyModel);
 }

@@ -5,7 +5,9 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVector>
+#include <QQueue>
 #include <QSqlQueryModel>
+#include <QDebug>
 #include <QMessageBox>
 
 namespace Ui {
@@ -40,6 +42,8 @@ private slots:
     void on_updateSouvenirButton_clicked();
 
     void on_addTeamButton_clicked();
+
+    void on_changeTeamInfoButton_clicked();
 
 private:
     Ui::AdminWindow *ui;

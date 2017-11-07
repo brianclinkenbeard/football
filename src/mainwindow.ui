@@ -136,6 +136,13 @@
       </widget>
       <widget class="QWidget" name="page_teams_stadiums">
        <layout class="QGridLayout" name="gridLayout_7">
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_6">
           <item row="0" column="1">
@@ -219,6 +226,13 @@
         </item>
         <item row="1" column="0">
          <widget class="QTableView" name="tableView_teams_stadiums"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="openRoofCountLabel">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
