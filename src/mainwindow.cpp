@@ -87,7 +87,11 @@ void MainWindow::on_comboBox_selection_currentIndexChanged(int index)
     case 3: // surfaces
         ui->comboBox_filters->addItems({ "All Surfaces" });
         populate_surfaces();
-        // fall through
+        break;
+    case 4: //Souvenirs
+        ui->comboBox_filters->addItems({ "Select Team" });
+        populate_teamNames();
+        //fall through
     }
 }
 
@@ -173,6 +177,18 @@ void MainWindow::populate_surfaces()
     ui->tableView_teams_stadiums->setModel(model);
 }
 
+void MainWindow::populate_teamNames()
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT DISTINCT TeamName FROM TeamInfo ORDER BY TeamName asc");
+    query.exec();
+
+    while(query.next())
+    {
+        ui->comboBox_filters->addItem(query.value(0).toString());
+    }
+}
+
 void MainWindow::on_pushButton_team_stadium_back_clicked()
 {
 
@@ -184,3 +200,28 @@ void MainWindow::on_adminLoginButton_clicked()
 
     Login.show();
 }
+
+void MainWindow::on_comboBox_filters_selectTeamName(const QString &arg1,int index)
+{
+    if(index == 4)
+    {
+        QSqlQueryModel * souvenirModel = new QSqlQueryModel();
+
+        //sets up the query
+        QSqlQuery *query = new QSqlQuery(db);
+        query->prepare("SELECT * FROM Souvenirs WHERE Team == (:teamName)");
+        query->bindValue(":teamName",arg1);
+        query->exec();
+
+        souvenirModel->setQuery(*query);
+
+        ui->tableView_teams_stadiums->setModel(souvenirModel);
+    }
+}
+
+void MainWindow::on_comboBox_filters_activated(const QString &arg1)
+{
+    on_comboBox_filters_selectTeamName(arg1,4);
+
+}
+

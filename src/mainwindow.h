@@ -40,6 +40,10 @@ private slots:
 
     void on_adminLoginButton_clicked();
 
+    void on_comboBox_filters_activated(const QString &arg1);
+
+    void on_comboBox_filters_selectTeamName(const QString &arg1,int index);
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
@@ -52,6 +56,7 @@ private:
     void populate_stadiums(bool open_roof);
     void populate_players();
     void populate_surfaces();
+    void populate_teamNames();
 };
 
 #endif // MAINWINDOW_H

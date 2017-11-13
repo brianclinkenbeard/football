@@ -207,6 +207,11 @@
               <string>Surfaces</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Souvenirs</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="0" column="2">
