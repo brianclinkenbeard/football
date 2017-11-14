@@ -34,7 +34,8 @@ SOURCES +=\
 HEADERS  += \
     src/login.h \
     src/mainwindow.h \
-    src/adminwindow.h
+    src/adminwindow.h \
+    src/graph.h
 
 FORMS    += \
     src/login.ui \

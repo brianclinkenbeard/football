@@ -206,6 +206,20 @@ void AdminWindow::on_addTeamButton_clicked()
         ui->addTeamButton->setEnabled(false);
     else
         QMessageBox::critical(this,"Failure to add new teams","Failure to add new teams",QMessageBox::Ok);
+
+    QSqlQuery *insertSouv = new QSqlQuery(db);
+    insertSouv->prepare("INSERT INTO Souvenirs SELECT * From SouvenirsExpansion");
+    if(insertSouv->exec())
+        ui->addTeamButton->setEnabled(false);
+    else
+        QMessageBox::critical(this,"Failure to add new teams","Failure to add new teams",QMessageBox::Ok);
+
+    QSqlQuery *insertDistance = new QSqlQuery(db);
+    insertDistance->prepare("INSERT INTO Distance SELECT * From DistanceExpansion");
+    if(insertDistance->exec())
+        ui->addTeamButton->setEnabled(false);
+    else
+        QMessageBox::critical(this,"Failure to add new teams","Failure to add new teams",QMessageBox::Ok);
 }
 
 void AdminWindow::on_changeTeamInfoButton_clicked()
