@@ -50,10 +50,13 @@ private slots:
 
     void on_comboBox_single_team_activated(const QString &arg1);
 
+    void reloadComboBoxes();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
+    int tracker;
 
     // helper functions
     void play_sound();

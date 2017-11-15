@@ -12,14 +12,12 @@ AdminWindow::AdminWindow(QWidget *parent) :
 
     QWidget::setWindowTitle("Football Admin Window");
 
-
-    QVector<QString> teamNames;
-
     QSqlQuery *nameQuery = new QSqlQuery(db);
     QSqlQuery *souvenirQuery = new QSqlQuery(db);
     QSqlQuery *newTeamQuery = new QSqlQuery(db);
     QSqlQueryModel * model = new QSqlQueryModel();
     QSqlQueryModel * newTeamModel = new QSqlQueryModel();
+    QSqlQueryModel * souvenirModel = new QSqlQueryModel();
 
     newTeamQuery->prepare("SELECT * FROM TeamInfoExpansion");
     newTeamQuery->exec();
@@ -37,8 +35,8 @@ AdminWindow::AdminWindow(QWidget *parent) :
     souvenirQuery->prepare("SELECT * FROM Souvenirs Order by Team asc");
     souvenirQuery->exec();
 
-    model->setQuery(*souvenirQuery);
-    ui->souvenirTableView->setModel(model);
+    souvenirModel->setQuery(*souvenirQuery);
+    ui->souvenirTableView->setModel(souvenirModel);
     ui->souvenirTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->souvenirTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -220,6 +218,9 @@ void AdminWindow::on_addTeamButton_clicked()
         ui->addTeamButton->setEnabled(false);
     else
         QMessageBox::critical(this,"Failure to add new teams","Failure to add new teams",QMessageBox::Ok);
+
+    reloadComboBoxes();
+    reloadTableViews();
 }
 
 void AdminWindow::on_changeTeamInfoButton_clicked()
@@ -262,4 +263,52 @@ void AdminWindow::on_changeTeamInfoButton_clicked()
     ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+}
+
+void AdminWindow::reloadComboBoxes()
+{
+    QSqlQuery *nameQuery = new QSqlQuery(db);
+    ui->addSouvenirTeamName->clear();
+    ui->deleteSouvenirTeamName->clear();
+    ui->modifySouvenirTeamName->clear();
+    ui->teamNameComboBox->clear();
+    teamNames.clear();
+
+    nameQuery->prepare("select distinct Team FROM Souvenirs");
+    if(nameQuery->exec())
+        while (nameQuery->next()) {
+            teamNames.push_back(nameQuery->value(0).toString());
+        }
+
+    for (int i = 0; i < teamNames.size(); i++) {
+        ui->addSouvenirTeamName->addItem(teamNames[i]);
+        ui->deleteSouvenirTeamName->addItem(teamNames[i]);
+        ui->modifySouvenirTeamName->addItem(teamNames[i]);
+        ui->teamNameComboBox->addItem(teamNames[i]);
+    }
+}
+
+void AdminWindow::reloadTableViews()
+{
+    QSqlQuery *souvenirQuery = new QSqlQuery(db);
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQueryModel * souvenirModel = new QSqlQueryModel();
+
+    souvenirQuery->prepare("SELECT * FROM Souvenirs Order by Team asc");
+    souvenirQuery->exec();
+
+    souvenirModel->setQuery(*souvenirQuery);
+    ui->souvenirTableView->setModel(souvenirModel);
+    ui->souvenirTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->souvenirTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
+    QSqlQuery *teamQuery = new QSqlQuery(db);
+    teamQuery->prepare("SELECT * FROM TeamInfo ORDER by TeamName asc");
+    teamQuery->exec();
+
+    model->setQuery(*teamQuery);
+    ui->editTeamsView->setModel(model);
+    ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }

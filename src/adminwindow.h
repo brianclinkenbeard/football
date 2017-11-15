@@ -45,8 +45,13 @@ private slots:
 
     void on_changeTeamInfoButton_clicked();
 
+    void reloadComboBoxes();
+
+    void reloadTableViews();
+
 private:
     Ui::AdminWindow *ui;
+    QVector<QString> teamNames;
     QSqlDatabase db = QSqlDatabase::database();
 };
 

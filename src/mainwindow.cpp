@@ -27,8 +27,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_btn_go_to_stadium_capacity_clicked()
-{
-
+{ 
+    reloadComboBoxes();
     ui->stWid->setCurrentWidget(ui->page_stadium_capacity);
     QSqlQuery *query = new QSqlQuery(db);
 
@@ -68,7 +68,7 @@ void MainWindow::on_btn_stadium_capacity_back_clicked()
 
 void MainWindow::on_pushButton_teams_stadiums_clicked()
 {
-
+    reloadComboBoxes();
     ui->stWid->setCurrentWidget(ui->page_teams_stadiums);
 
     // show all teams on page open
@@ -84,21 +84,26 @@ void MainWindow::on_comboBox_selection_currentIndexChanged(int index)
     switch (index) {
     case 0: // teams
         ui->comboBox_filters->addItems({ "All Teams", "American Football Conference", "National Football Conference" });
+        tracker = 0;
         break;
     case 1: // stadiums
         ui->comboBox_filters->addItems({ "All Stadiums", "Open Roof Stadiums" });
+        tracker = 1;
         break;
     case 2: // star players
         ui->comboBox_filters->addItems({ "All Players" });
         populate_players();
+        tracker = 2;
         break;
     case 3: // surfaces
         ui->comboBox_filters->addItems({ "All Surfaces" });
         populate_surfaces();
+        tracker = 3;
         break;
     case 4: //Souvenirs
         ui->comboBox_filters->addItems({ "Select Team" });
         populate_teamNames();
+        tracker = 4;
         //fall through
     }
 }
@@ -229,13 +234,12 @@ void MainWindow::on_comboBox_filters_selectTeamName(const QString &arg1,int inde
 
 void MainWindow::on_comboBox_filters_activated(const QString &arg1)
 {
-    on_comboBox_filters_selectTeamName(arg1,4);
-
+    on_comboBox_filters_selectTeamName(arg1,tracker);
 }
-
 
 void MainWindow::on_pushButton_team_information_clicked()
 {
+    reloadComboBoxes();
     ui->stWid->setCurrentWidget(ui->page_single_team_info);
 }
 
@@ -257,3 +261,15 @@ void MainWindow::on_comboBox_single_team_activated(const QString &arg1)
 
     ui->tableView_single_team_info->setModel(model);
 }
+
+void MainWindow::reloadComboBoxes()
+{
+    QSqlQuery *query = new QSqlQuery(db);
+    ui->comboBox_single_team->clear();
+
+    query->prepare("SELECT DISTINCT TeamName FROM TeamInfo");
+    query->exec();
+    while (query->next())
+        ui->comboBox_single_team->addItem(query->value(0).toString());
+}
+

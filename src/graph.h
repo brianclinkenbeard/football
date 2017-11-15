@@ -140,6 +140,7 @@ int Graph<Type>::getWeight(Type vertex1, Type vertex2)
             }
         }
     }
+    return -1;
 }
 
 template <class Type>
