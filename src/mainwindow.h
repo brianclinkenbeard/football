@@ -44,6 +44,12 @@ private slots:
 
     void on_comboBox_filters_selectTeamName(const QString &arg1,int index);
 
+    void on_pushButton_team_information_clicked();
+
+    void on_pushButton_single_team_back_clicked();
+
+    void on_comboBox_single_team_activated(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();

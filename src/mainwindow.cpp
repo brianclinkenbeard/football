@@ -11,6 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
     // stretch columns equally to fit width of table
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView_single_team_info->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    // populate team name combobox for single team info (in constructor so it happens only once)
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT TeamName FROM TeamInfo");
+    query->exec();
+    while (query->next())
+        ui->comboBox_single_team->addItem(query->value(0).toString());
 }
 
 MainWindow::~MainWindow()
@@ -225,3 +233,27 @@ void MainWindow::on_comboBox_filters_activated(const QString &arg1)
 
 }
 
+
+void MainWindow::on_pushButton_team_information_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_single_team_info);
+}
+
+void MainWindow::on_pushButton_single_team_back_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_home);
+}
+
+void MainWindow::on_comboBox_single_team_activated(const QString &arg1)
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT * FROM TeamInfo WHERE TeamName == (:teamName)");
+    query->bindValue(":teamName", arg1);
+    query->exec();
+
+    model->setQuery(*query);
+
+    ui->tableView_single_team_info->setModel(model);
+}
