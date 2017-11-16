@@ -56,7 +56,6 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
-    int tracker;
 
     // helper functions
     void play_sound();
