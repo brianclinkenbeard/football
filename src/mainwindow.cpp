@@ -19,6 +19,19 @@ MainWindow::MainWindow(QWidget *parent) :
     query->exec();
     while (query->next())
         ui->comboBox_single_team->addItem(query->value(0).toString());
+
+    dfs.loadGraph(dfs);
+    bfs.loadGraph(bfs);
+
+    dfs.DFS("Hard Rock Stadium");
+    bfs.BFS("Lambeau Field");
+
+    QVector<QString> temp = dfs.getOrder();
+
+    for(int i=0; i<temp.size(); ++i){
+        qDebug() << temp[i];
+    }
+
 }
 
 MainWindow::~MainWindow()

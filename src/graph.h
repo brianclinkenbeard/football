@@ -43,6 +43,7 @@ public:
     void printEdgeListType();
     void clearEdgeType();
     void loadGraph(Graph &g);
+    QVector<QString> getOrder();
 
 private:
 
@@ -63,6 +64,9 @@ private:
     int numberOfVertex;
     QVector<Vertex> adjList;
     int totalDistance;
+
+    QVector<QString> order;
+
     QSqlDatabase db = QSqlDatabase::database();
 
 };
@@ -79,6 +83,10 @@ template <class Type>
 Graph<Type>::~Graph()
 {
 
+}
+template <class Type>
+QVector<QString> Graph<Type>::getOrder(){
+    return order;
 }
 
 template <class Type>
@@ -250,6 +258,7 @@ void Graph<Type>::clearEdgeType()
 template <class Type>
 void Graph<Type>::DFS(Type vertex)
 {
+    order.clear();
     totalDistance = 0;
     this->DFS(findVertexIndex(vertex));
 
@@ -272,6 +281,7 @@ template <class Type>
 void Graph<Type>::DFS(int index){
     adjList[index].visited = true;
     qDebug() << adjList[index].name << " --> ";
+    order.append(adjList[index].name);
 
     while(checkAvailableVertices(index)){
         int edgeIndex = this->findSmallestEdgeIndex(&(adjList[index].edgeList));
@@ -291,6 +301,7 @@ void Graph<Type>::DFS(int index){
 template <class Type>
 void Graph<Type>::BFS(Type vertex)
 {
+    order.clear();
     totalDistance = 0;
     this->BFS(findVertexIndex(vertex));
     totalDistance = getTotalDistance();
@@ -313,6 +324,7 @@ void Graph<Type>::BFS(int index)
 {
     adjList[index].visited = true;
     qDebug() << adjList[index].name << " --> ";
+    order.append(adjList[index].name);
 
     QVector<int> indexList;
 
@@ -328,6 +340,7 @@ void Graph<Type>::BFS(int index)
         }
         adjList[vertexIndex].visited = true;
         qDebug() << adjList[vertexIndex].name << " --> ";
+        order.append(adjList[vertexIndex].name);
         indexList.push_back(vertexIndex);
     }
 
@@ -345,6 +358,7 @@ void Graph<Type>::BFS(int index)
 
             adjList[vertexIndex].visited = true;
             qDebug() << adjList[vertexIndex].name << " --> ";
+            order.append(adjList[vertexIndex].name);
             indexList.push_back(vertexIndex);
         }
     }

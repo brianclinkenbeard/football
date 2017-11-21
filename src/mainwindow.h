@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSound>
+#include "graph.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,6 +58,11 @@ private:
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
     int tracker;
+
+    Graph<QString> dfs;
+    Graph<QString> bfs;
+
+
 
     // helper functions
     void play_sound();
