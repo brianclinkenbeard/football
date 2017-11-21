@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_single_team_info->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableView_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     // populate team name combobox for single team info (in constructor so it happens only once)
     QSqlQuery *query = new QSqlQuery(db);
@@ -307,6 +308,10 @@ void MainWindow::on_pushButton_DFS_clicked()
         QTableWidgetItem *insert = new QTableWidgetItem(list[i]);
         ui->tableWidget_Trip->setItem(i,0,insert);
     }
+
+    ui->lineEdit_Distance_Trip->insert(QString::number(graph.getTotalDistance()));
+
+
 }
 
 
@@ -321,6 +326,7 @@ void MainWindow::on_pushButton_BFS_clicked()
         QTableWidgetItem *insert = new QTableWidgetItem(list[i]);
         ui->tableWidget_Trip->setItem(i,0,insert);
     }
+    ui->lineEdit_Distance_Trip->insert(QString::number(graph.getTotalDistance()));
 }
 
 void MainWindow::on_PB_Back_Trip_clicked()
@@ -337,20 +343,14 @@ void MainWindow::on_tableWidget_Trip_itemClicked(QTableWidgetItem *item)
 {
     qDebug() << item->text();
     QString input = item->text();
-    QSqlQuery *teamQuery = new QSqlQuery(db);
-    teamQuery->prepare("SELECT TeamName FROM TeamInfo WHERE StadiumName == :stadium");
-    teamQuery->bindValue(":stadium", input);
-    teamQuery->exec();
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT Team, Item, Price FROM Souvenirs WHERE Stadium == :stadium");
+    query->bindValue(":stadium", input);
+    query->exec();
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery(*query);
 
-    while(teamQuery->next()){
-        qDebug() << teamQuery->value(0);
-
-      }
-
-//    QSqlQueryModel *model = new QSqlQueryModel();
-//    model->setQuery(*teamQuery);
-
-//    ui->tableView_Trip->setModel(model);
+    ui->tableView_Trip->setModel(model);
 
 }
 

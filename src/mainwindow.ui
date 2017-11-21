@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stWid">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page_home">
        <widget class="QPushButton" name="btn_go_to_stadium_capacity">
@@ -378,7 +378,17 @@
         <item row="1" column="1">
          <layout class="QGridLayout" name="gridLayout_10">
           <item row="1" column="0">
-           <widget class="QTableView" name="tableView_Trip"/>
+           <widget class="QTableView" name="tableView_Trip">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <layout class="QGridLayout" name="gridLayout_9">
@@ -484,11 +494,7 @@
      <x>0</x>
      <y>0</y>
      <width>1152</width>
-<!--<<<<<<< HEAD
-     <height>20</height>
-=======-->
-     <height>21</height>
-<!-->>>>>>> 9ab8686df24de1e6c17fdd52af6d3c183a82aca8-->
+     <height>22</height>
     </rect>
    </property>
   </widget>
