@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_single_team_info->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     // populate team name combobox for single team info (in constructor so it happens only once)
     QSqlQuery *query = new QSqlQuery(db);
@@ -20,17 +21,23 @@ MainWindow::MainWindow(QWidget *parent) :
     while (query->next())
         ui->comboBox_single_team->addItem(query->value(0).toString());
 
-    dfs.loadGraph(dfs);
-    bfs.loadGraph(bfs);
+    graph.loadGraph(graph);
 
-    dfs.DFS("Hard Rock Stadium");
-    bfs.BFS("Lambeau Field");
+//    graph.DFS("Hard Rock Stadium");
+//    QVector<QString> temp = graph.getOrder();
+//    qDebug() << "DFS traversal: \n";
+//    for(int i=0; i<temp.size(); ++i){
+//        qDebug() << temp[i];
+//    }
+//    qDebug() << "end\n";
 
-    QVector<QString> temp = dfs.getOrder();
-
-    for(int i=0; i<temp.size(); ++i){
-        qDebug() << temp[i];
-    }
+//    graph.BFS("Lambeau Field");
+//    temp = graph.getOrder();
+//    qDebug() << "BFS traversal: \n";
+//    for(int i=0; i<temp.size(); ++i){
+//        qDebug() << temp[i];
+//    }
+//    qDebug() << "end\n";
 
 }
 
@@ -284,5 +291,73 @@ void MainWindow::reloadComboBoxes()
     query->exec();
     while (query->next())
         ui->comboBox_single_team->addItem(query->value(0).toString());
+}
+
+
+
+
+void MainWindow::on_pushButton_DFS_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.DFS("Hard Rock Stadium");
+    QVector<QString> list = graph.getOrder();
+
+    ui->tableWidget_Trip->setRowCount(list.size());
+    for(int i=0; i<list.size(); ++i){
+        QTableWidgetItem *insert = new QTableWidgetItem(list[i]);
+        ui->tableWidget_Trip->setItem(i,0,insert);
+    }
+}
+
+
+void MainWindow::on_pushButton_BFS_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.BFS("Lambeau Field");
+    QVector<QString> list = graph.getOrder();
+
+    ui->tableWidget_Trip->setRowCount(list.size());
+    for(int i=0; i<list.size(); ++i){
+        QTableWidgetItem *insert = new QTableWidgetItem(list[i]);
+        ui->tableWidget_Trip->setItem(i,0,insert);
+    }
+}
+
+void MainWindow::on_PB_Back_Trip_clicked()
+{
+    ui->tableWidget_Trip->clearContents();
+    ui->tableWidget_Trip->setRowCount(0);
+    ui->lineEdit_Distance_Trip->clear();
+    ui->doubleSpinBox_Trip->setValue(0);
+    ui->tableView_Trip->setModel(new QSqlQueryModel);
+    ui->stWid->setCurrentWidget(ui->page_home);
+}
+
+void MainWindow::on_tableWidget_Trip_itemClicked(QTableWidgetItem *item)
+{
+    qDebug() << item->text();
+    QString input = item->text();
+    QSqlQuery *teamQuery = new QSqlQuery(db);
+    teamQuery->prepare("SELECT TeamName FROM TeamInfo WHERE StadiumName == :stadium");
+    teamQuery->bindValue(":stadium", input);
+    teamQuery->exec();
+
+//    QSqlQuery *souvenirQuery = new QSqlQuery(db);
+//    while(teamQuery->next()){
+//        qDebug() << teamQuery->value(0);
+//        souvenirQuery->prepare("SELECT * FROM Souvenirs WHERE Team == :team");
+//        souvenirQuery->bindValue(":team", teamQuery->value(0).toString());
+//        souvenirQuery->exec();
+
+
+
+
+//      }
+
+//    QSqlQueryModel *model = new QSqlQueryModel();
+//    model->setQuery(*teamQuery);
+
+//    ui->tableView_Trip->setModel(model);
+
 }
 

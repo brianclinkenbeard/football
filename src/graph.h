@@ -41,7 +41,7 @@ public:
     void BFS(Type vertex);
 
     void printEdgeListType();
-    void clearEdgeType();
+
     void loadGraph(Graph &g);
     QVector<QString> getOrder();
 
@@ -59,6 +59,8 @@ private:
     void setReverse(Type vertex1, Type vertex2);
 
     void clearVisitedVertex();
+    void clearEdgeType();
+
     int getTotalDistance();
 
     int numberOfVertex;
@@ -275,6 +277,7 @@ void Graph<Type>::DFS(Type vertex)
     qDebug() << "End\n";
     qDebug() << "Total Distance traveled: " << totalDistance << endl;
     this->clearVisitedVertex();
+    this->clearEdgeType();
 }
 
 template <class Type>
@@ -316,6 +319,7 @@ void Graph<Type>::BFS(Type vertex)
 
     qDebug() << "End\n";
     this->clearVisitedVertex();
+    this->clearEdgeType();
     qDebug() << "Total Distance traveled: " << totalDistance << endl;
 }
 
