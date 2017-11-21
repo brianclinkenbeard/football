@@ -66,7 +66,6 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
-    int tracker;
 
     Graph<QString> graph;
 

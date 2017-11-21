@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    }
 //    qDebug() << "end\n";
 
+    // hide roof count label
+    ui->openRoofCountLabel->hide();
 }
 
 MainWindow::~MainWindow()
@@ -97,6 +99,8 @@ void MainWindow::on_pushButton_teams_stadiums_clicked()
 
 void MainWindow::on_comboBox_selection_currentIndexChanged(int index)
 {
+    ui->openRoofCountLabel->hide();
+
     // clear old filters
     ui->comboBox_filters->clear();
 
@@ -104,26 +108,21 @@ void MainWindow::on_comboBox_selection_currentIndexChanged(int index)
     switch (index) {
     case 0: // teams
         ui->comboBox_filters->addItems({ "All Teams", "American Football Conference", "National Football Conference" });
-        tracker = 0;
         break;
     case 1: // stadiums
         ui->comboBox_filters->addItems({ "All Stadiums", "Open Roof Stadiums" });
-        tracker = 1;
         break;
     case 2: // star players
         ui->comboBox_filters->addItems({ "All Players" });
         populate_players();
-        tracker = 2;
         break;
     case 3: // surfaces
         ui->comboBox_filters->addItems({ "All Surfaces" });
         populate_surfaces();
-        tracker = 3;
         break;
     case 4: //Souvenirs
         ui->comboBox_filters->addItems({ "Select Team" });
         populate_teamNames();
-        tracker = 4;
         //fall through
     }
 }
@@ -177,6 +176,7 @@ void MainWindow::populate_stadiums(bool open_roof)
     proxyModel->setSourceModel(model);
     proxyModel->setFilterKeyColumn(2); // StadiumRoofType
     if (open_roof) {
+        ui->openRoofCountLabel->show();
         proxyModel->setFilterRegExp("Open");
         ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(proxyModel->rowCount()));
     }
@@ -254,7 +254,7 @@ void MainWindow::on_comboBox_filters_selectTeamName(const QString &arg1,int inde
 
 void MainWindow::on_comboBox_filters_activated(const QString &arg1)
 {
-    on_comboBox_filters_selectTeamName(arg1,tracker);
+    on_comboBox_filters_selectTeamName(arg1, ui->comboBox_selection->currentIndex());
 }
 
 void MainWindow::on_pushButton_team_information_clicked()
@@ -342,17 +342,10 @@ void MainWindow::on_tableWidget_Trip_itemClicked(QTableWidgetItem *item)
     teamQuery->bindValue(":stadium", input);
     teamQuery->exec();
 
-//    QSqlQuery *souvenirQuery = new QSqlQuery(db);
-//    while(teamQuery->next()){
-//        qDebug() << teamQuery->value(0);
-//        souvenirQuery->prepare("SELECT * FROM Souvenirs WHERE Team == :team");
-//        souvenirQuery->bindValue(":team", teamQuery->value(0).toString());
-//        souvenirQuery->exec();
+    while(teamQuery->next()){
+        qDebug() << teamQuery->value(0);
 
-
-
-
-//      }
+      }
 
 //    QSqlQueryModel *model = new QSqlQueryModel();
 //    model->setQuery(*teamQuery);
