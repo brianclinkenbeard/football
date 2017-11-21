@@ -44,6 +44,7 @@ public:
 
     void loadGraph(Graph &g);
     QVector<QString> getOrder();
+    int getTotalDistance();
 
 private:
 
@@ -60,8 +61,6 @@ private:
 
     void clearVisitedVertex();
     void clearEdgeType();
-
-    int getTotalDistance();
 
     int numberOfVertex;
     QVector<Vertex> adjList;
