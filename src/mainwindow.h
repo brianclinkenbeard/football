@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSound>
+#include "graph.h"
+#include <QTableWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -52,10 +54,22 @@ private slots:
 
     void reloadComboBoxes();
 
+    void on_pushButton_DFS_clicked();
+
+    void on_PB_Back_Trip_clicked();
+
+    void on_tableWidget_Trip_itemClicked(QTableWidgetItem *item);
+
+    void on_pushButton_BFS_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
+
+    Graph<QString> graph;
+
+
 
     // helper functions
     void play_sound();

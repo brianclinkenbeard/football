@@ -16,12 +16,12 @@ int main(int argc, char *argv[])
     MainWindow window;
     window.show();
 
-    Graph<QString> graph;
-    graph.loadGraph(graph);
-    graph.printAdjList();
-    graph.DFS("Hard Rock Stadium");
-    graph.clearEdgeType();
-    graph.BFS("Lambeau Field");
+//    Graph<QString> graph;
+//    graph.loadGraph(graph);
+//    graph.printAdjList();
+//    graph.DFS("Hard Rock Stadium");
+//    graph.clearEdgeType();
+//    graph.BFS("Lambeau Field");
 
     return a.exec();
 }
