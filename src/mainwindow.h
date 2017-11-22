@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QSound>
 #include "graph.h"
+#include "cart.h"
 #include <QTableWidgetItem>
 
 namespace Ui {
@@ -62,12 +63,21 @@ private slots:
 
     void on_pushButton_BFS_clicked();
 
+    void on_PB_Next_Trip_clicked();
+
+    void on_pushButton_Back_Summary_clicked();
+
+    void on_pushButton_Add_Trip_clicked();
+
+    void on_pushButton_Comfirm_Summary_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
 
     Graph<QString> graph;
+    Cart cart;
 
 
 
