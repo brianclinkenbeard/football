@@ -31,9 +31,12 @@ public:
         for(int i=0; i<souvenirList.size(); ++i){
             cost += souvenirList[i].price;
         }
+        qDebug() << cost;
+        return cost;
     }
 
     int getSouvenirQuantity(){
+        qDebug() << souvenirList.size();
         return souvenirList.size();
     }
 

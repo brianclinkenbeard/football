@@ -35,7 +35,9 @@ HEADERS  += \
     src/login.h \
     src/mainwindow.h \
     src/adminwindow.h \
-    src/graph.h
+    src/graph.h \
+    src/cart.h  \
+    src/stadium.h
 
 FORMS    += \
     src/login.ui \

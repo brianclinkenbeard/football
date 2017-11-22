@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_single_team_info->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget_Summary->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     // populate team name combobox for single team info (in constructor so it happens only once)
     QSqlQuery *query = new QSqlQuery(db);
@@ -294,9 +295,6 @@ void MainWindow::reloadComboBoxes()
         ui->comboBox_single_team->addItem(query->value(0).toString());
 }
 
-
-
-
 void MainWindow::on_pushButton_DFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
@@ -314,7 +312,6 @@ void MainWindow::on_pushButton_DFS_clicked()
 
 }
 
-
 void MainWindow::on_pushButton_BFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
@@ -331,12 +328,16 @@ void MainWindow::on_pushButton_BFS_clicked()
 
 void MainWindow::on_PB_Back_Trip_clicked()
 {
+    cart.clear();
     ui->tableWidget_Trip->clearContents();
     ui->tableWidget_Trip->setRowCount(0);
     ui->lineEdit_Distance_Trip->clear();
-    ui->doubleSpinBox_Trip->setValue(0);
+    ui->lineEdit_Cost_Summary->clear();
+    ui->lineEdit_Distance_Summary->clear();
+    ui->spinBox_Trip->setValue(0);
     ui->tableView_Trip->setModel(new QSqlQueryModel);
     ui->stWid->setCurrentWidget(ui->page_home);
+    cart.clear();
 }
 
 void MainWindow::on_tableWidget_Trip_itemClicked(QTableWidgetItem *item)
@@ -354,3 +355,71 @@ void MainWindow::on_tableWidget_Trip_itemClicked(QTableWidgetItem *item)
 
 }
 
+void MainWindow::on_pushButton_Add_Trip_clicked()
+{
+    if(ui->tableView_Trip->currentIndex().row() >-1 && ui->spinBox_Trip->text().toInt() > 0){
+
+        QString stadium = ui->tableWidget_Trip->currentIndex().data(0).toString();
+        QString team = ui->tableView_Trip->currentIndex().sibling(ui->tableView_Trip->currentIndex().row(), 0).data(0).toString();
+        QString item = ui->tableView_Trip->currentIndex().sibling(ui->tableView_Trip->currentIndex().row(), 1).data(0).toString();
+        double price = ui->tableView_Trip->currentIndex().sibling(ui->tableView_Trip->currentIndex().row(), 2).data(0).toDouble();
+
+        qDebug() << stadium;
+        qDebug() << team;
+        qDebug() << item;
+        qDebug() << price;
+
+        cart.addSouvenir(stadium, team, item, price, ui->spinBox_Trip->text().toInt());
+
+       QMessageBox::information(this, "Added to Cart", item + " was successfully added to your cart.");
+    }
+    else{
+        QMessageBox::warning(this, "No Item Selected", "Please select the item you wish to\npurchase and the quantity.");
+
+         qDebug() << "Souvenir or Quantity was not selected";
+    }
+    ui->spinBox_Trip->setValue(0);
+}
+
+
+void MainWindow::on_PB_Next_Trip_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_Summary);
+    ui->lineEdit_Cost_Summary->insert(QString::number(cart.getTotalAmount()));
+    ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
+    ui->tableView_Trip->setModel(new QSqlQueryModel());
+
+    QVector<Stadium> list = cart.getStadiumList();
+
+    for(int i=0; i<list.size(); ++i){
+
+        ui->tableWidget_Summary->insertRow(ui->tableWidget_Summary->rowCount());
+        ui->tableWidget_Summary->setItem(ui->tableWidget_Summary->rowCount() - 1, 0, new QTableWidgetItem(list[i].getName()));
+        ui->tableWidget_Summary->setItem(ui->tableWidget_Summary->rowCount() - 1, 1, new QTableWidgetItem(QString::number(list[i].getSouvenirQuantity())));
+        ui->tableWidget_Summary->setItem(ui->tableWidget_Summary->rowCount() - 1, 2, new QTableWidgetItem(QString::number(list[i].getTotalAmount())));
+
+    }
+}
+
+void MainWindow::on_pushButton_Back_Summary_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_Trip);
+    ui->lineEdit_Cost_Summary->clear();
+    ui->lineEdit_Distance_Summary->clear();
+    ui->tableWidget_Summary->clearContents();
+    ui->tableWidget_Summary->setRowCount(0);
+}
+
+
+void MainWindow::on_pushButton_Comfirm_Summary_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_home);
+    ui->lineEdit_Distance_Trip->clear();
+    ui->lineEdit_Cost_Summary->clear();
+    ui->lineEdit_Distance_Summary->clear();
+    ui->tableWidget_Trip->clearContents();
+    ui->tableWidget_Trip->setRowCount(0);
+    ui->tableWidget_Summary->clearContents();
+    ui->tableWidget_Summary->setRowCount(0);
+    cart.clear();
+}
