@@ -2,7 +2,7 @@
 #define CART_H
 
 #include "stadium.h"
-#include <QVector>>
+#include <QVector>
 
 class Cart{
 public:
