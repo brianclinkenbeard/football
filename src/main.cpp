@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     MainWindow window;
     window.show();
 
+    //showing bryce how to merge
+
 //    Graph<QString> graph;
 //    graph.loadGraph(graph);
 //    graph.printAdjList();
