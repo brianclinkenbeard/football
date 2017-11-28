@@ -16,8 +16,10 @@ int main(int argc, char *argv[])
     MainWindow window;
     window.show();
 
-//    Graph<QString> graph;
-//    graph.loadGraph(graph);
+    Graph<QString> graph;
+    graph.loadGraph(graph);
+    graph.Dijkstra("Los Angeles Memorial Coliseum");
+    graph.MST("Hard Rock Stadium");
 //    graph.printAdjList();
 //    graph.DFS("Hard Rock Stadium");
 //    graph.clearEdgeType();
