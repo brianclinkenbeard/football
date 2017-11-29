@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stWid->setCurrentWidget(ui->page_home);
 
+    dijkstraModel = new QTableWidget(1,1,this);
+
     // stretch columns equally to fit width of table
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -422,4 +424,33 @@ void MainWindow::on_pushButton_Comfirm_Summary_clicked()
     ui->tableWidget_Summary->clearContents();
     ui->tableWidget_Summary->setRowCount(0);
     cart.clear();
+}
+
+void MainWindow::on_pushButton_distance_checker_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_distance_checker);
+    dijkstraModel->insertRow(dijkstraModel->rowCount());
+    ui->distance_checker_tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->distance_checker_tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != 'Los Angeles Memorial Coliseum'");
+    query->exec();
+
+    while(query->next()){
+        ui->combobox_distance_checker->addItem(query->value(0).toString());
+    }
+    graph.Dijkstra("Los Angeles Memorial Coliseum");
+}
+
+void MainWindow::on_pushButton_get_distance_clicked()
+{
+    QString stadiumToVisit = ui->combobox_distance_checker->currentText();
+    int distance;
+
+    distance = graph.getCost(stadiumToVisit);
+
+    QTableWidgetItem *distanceItem = new QTableWidgetItem(QString::number(distance));
+    dijkstraModel->setItem(0,0,distanceItem);
+    qDebug() << distance;
 }

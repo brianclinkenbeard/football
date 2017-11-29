@@ -71,12 +71,17 @@ private slots:
 
     void on_pushButton_Comfirm_Summary_clicked();
 
+    void on_pushButton_distance_checker_clicked();
+
+    void on_pushButton_get_distance_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
     login Login;
 
     Graph<QString> graph;
+    QTableWidget *dijkstraModel;
     Cart cart;
 
 
