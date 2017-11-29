@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 #include <QVector>
+#include <queue>
 #include <QSqlQuery>
 
 enum EdgeType {DISCOVERY,BACK,NOTHING,REPEAT,CROSS};
@@ -21,6 +22,14 @@ struct Vertex
     bool visited;
     QString name;
     QVector<Edge> edgeList;
+    int cost;
+};
+
+class CompareCost // a cost comparator
+{
+public:
+    bool operator()(const Vertex& p, const Vertex& q) const
+    { return (p.cost > q.cost);}
 };
 
 
@@ -39,12 +48,15 @@ public:
 
     void DFS(Type vertex);
     void BFS(Type vertex);
+    void Dijkstra(Type vertex);
+    void MST(Type vertex);
 
     void printEdgeListType();
 
     void loadGraph(Graph &g);
     QVector<QString> getOrder();
     int getTotalDistance();
+    int getCost(Type vertex);
 
 private:
 
@@ -446,5 +458,118 @@ void Graph<Type>::loadGraph(Graph& g)
         }
     }
 }
+
+template <class Type>
+void Graph<Type>::Dijkstra(Type vertex)
+{
+    Vertex u;
+    QVector<int> parent(numberOfVertex);
+
+    //Code to set the cost array
+    for(int i = 0; i < adjList.size(); i++)
+    {
+        adjList[i].cost = std::numeric_limits<int>::max();
+    }
+
+    adjList[findVertexIndex(vertex)].cost = 0;
+
+    //priority queue to go through the vector
+    std::priority_queue<Vertex,QVector<Vertex>,CompareCost> Q;
+
+    int start = findVertexIndex(vertex);
+
+    parent[start] = start;
+
+    Q.push(adjList[start]);
+
+    while(!Q.empty())
+    {
+        u = Q.top();
+        Q.pop();
+        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++)
+        {
+            int foundVertex = findVertexIndex(u.name);
+            int foundEdgeVertex = findVertexIndex(adjList[foundVertex].edgeList[i].destination);
+            if(adjList[foundVertex].cost + getWeight(adjList[foundVertex].name,adjList[foundEdgeVertex].name)
+               < adjList[foundEdgeVertex].cost)
+            {
+                adjList[foundEdgeVertex].cost = adjList[foundVertex].cost +
+                                                getWeight(adjList[foundVertex].name, adjList[foundEdgeVertex].name);
+                parent[foundEdgeVertex] = foundVertex;
+                Q.push(adjList[foundEdgeVertex]);
+            }
+        }
+    }
+
+    for(int i = 0; i < adjList.size(); i++)
+        {
+            qDebug() << "Cost is " << adjList[i].cost << " to go from "
+                 << adjList[start].name << " to " << adjList[i].name << endl;
+        }
+}
+
+template <class Type>
+void Graph<Type>::MST(Type vertex)
+{
+    Vertex u;
+    int distance = 0;
+
+    QVector<QString> parent(numberOfVertex);
+    QVector<bool> isInMST(numberOfVertex);
+
+    //Code to set the cost array
+    for(int i = 0; i < adjList.size(); i++)
+    {
+        adjList[i].cost = std::numeric_limits<int>::max();
+    }
+
+    adjList[findVertexIndex(vertex)].cost = 0;
+    parent[findVertexIndex(vertex)] = adjList[findVertexIndex(vertex)].name;
+
+    //priority queue to go through the vector
+    std::priority_queue<Vertex,QVector<Vertex>,CompareCost> Q;
+
+    Q.push(adjList[findVertexIndex(vertex)]);
+
+    while(!Q.empty())
+    {
+        u = Q.top();
+        Q.pop();
+
+        isInMST[findVertexIndex(u.name)] = true;
+
+        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++)
+        {
+            int foundVertex = findVertexIndex(u.name);
+            int foundEdgeVertex = findVertexIndex(adjList[foundVertex].edgeList[i].destination);
+            if(getWeight(adjList[foundVertex].name,adjList[foundEdgeVertex].name)
+               < adjList[foundEdgeVertex].cost && !isInMST[foundEdgeVertex])
+            {
+                adjList[foundEdgeVertex].cost = getWeight(adjList[foundVertex].name, adjList[foundEdgeVertex].name);
+                parent[foundEdgeVertex] = adjList[foundVertex].name;
+                Q.push(adjList[foundEdgeVertex]);
+            }
+        }
+    }
+
+    for(int i = 0; i < adjList.size(); i++)
+    {
+        qDebug() << "Cost is " << adjList[i].cost
+             << " to go from " << parent[i]
+             << " to " << adjList[i].name << endl;
+        distance += adjList[i].cost;
+    }
+
+    qDebug() << "Total Distance is " << distance;
+}
+
+template<class Type>
+int Graph<Type>::getCost(Type vertex)
+{
+    int position = findVertexIndex(vertex);
+
+    return adjList[position].cost;
+}
+
 
 #endif //DFS_AND_BFS_GRAPH_H
