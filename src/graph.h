@@ -70,7 +70,9 @@ private:
     void BFS(int index);
 
     void setReverse(Type vertex1, Type vertex2);
+    void setDiscovery(Type vertex1, Type vertex2);
 
+    QList<int> getPath(int startVertex,int endVertex,QVector<int> parent);
     void clearVisitedVertex();
     void clearEdgeType();
 
@@ -501,12 +503,16 @@ void Graph<Type>::Dijkstra(Type vertex)
         }
     }
 
+
     for(int i = 0; i < adjList.size(); i++)
         {
             qDebug() << "Cost is " << adjList[i].cost << " to go from "
                  << adjList[start].name << " to " << adjList[i].name << endl;
         }
+
+
 }
+
 
 template <class Type>
 void Graph<Type>::MST(Type vertex)
@@ -557,6 +563,7 @@ void Graph<Type>::MST(Type vertex)
         qDebug() << "Cost is " << adjList[i].cost
              << " to go from " << parent[i]
              << " to " << adjList[i].name << endl;
+
         distance += adjList[i].cost;
     }
 
