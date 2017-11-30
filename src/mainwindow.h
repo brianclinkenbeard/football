@@ -81,7 +81,6 @@ private:
     login Login;
 
     Graph<QString> graph;
-    QTableWidget *dijkstraModel;
     Cart cart;
 
 

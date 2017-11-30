@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stWid">
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="page_home">
        <widget class="QPushButton" name="btn_go_to_stadium_capacity">
@@ -624,6 +624,9 @@
       </widget>
       <widget class="QWidget" name="page_distance_checker">
        <layout class="QGridLayout" name="gridLayout_15">
+        <item row="1" column="0">
+         <widget class="QComboBox" name="combobox_distance_checker"/>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="distance_checker_label">
           <property name="text">
@@ -631,18 +634,12 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QComboBox" name="combobox_distance_checker"/>
-        </item>
         <item row="2" column="0">
          <widget class="QPushButton" name="pushButton_get_distance">
           <property name="text">
            <string>Get Distance</string>
           </property>
          </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QTableWidget" name="distance_checker_tableWidget"/>
         </item>
        </layout>
       </widget>
