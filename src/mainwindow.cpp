@@ -8,8 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stWid->setCurrentWidget(ui->page_home);
 
-    dijkstraModel = new QTableWidget(1,1,this);
-
     // stretch columns equally to fit width of table
     ui->tableView_stadium_capacity_list->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_teams_stadiums->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -310,6 +308,7 @@ void MainWindow::on_pushButton_DFS_clicked()
     }
 
     ui->lineEdit_Distance_Trip->insert(QString::number(graph.getTotalDistance()));
+    ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
 
 
 }
@@ -326,6 +325,7 @@ void MainWindow::on_pushButton_BFS_clicked()
         ui->tableWidget_Trip->setItem(i,0,insert);
     }
     ui->lineEdit_Distance_Trip->insert(QString::number(graph.getTotalDistance()));
+    ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
 }
 
 void MainWindow::on_PB_Back_Trip_clicked()
@@ -388,7 +388,8 @@ void MainWindow::on_PB_Next_Trip_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Summary);
     ui->lineEdit_Cost_Summary->insert(QString::number(cart.getTotalAmount()));
-    ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
+
+//    ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
     ui->tableView_Trip->setModel(new QSqlQueryModel());
 
     QVector<Stadium> list = cart.getStadiumList();
@@ -407,7 +408,7 @@ void MainWindow::on_pushButton_Back_Summary_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
     ui->lineEdit_Cost_Summary->clear();
-    ui->lineEdit_Distance_Summary->clear();
+//    ui->lineEdit_Distance_Summary->clear();
     ui->tableWidget_Summary->clearContents();
     ui->tableWidget_Summary->setRowCount(0);
 }
@@ -429,9 +430,6 @@ void MainWindow::on_pushButton_Comfirm_Summary_clicked()
 void MainWindow::on_pushButton_distance_checker_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_distance_checker);
-    dijkstraModel->insertRow(dijkstraModel->rowCount());
-    ui->distance_checker_tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->distance_checker_tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != 'Los Angeles Memorial Coliseum'");
@@ -446,11 +444,23 @@ void MainWindow::on_pushButton_distance_checker_clicked()
 void MainWindow::on_pushButton_get_distance_clicked()
 {
     QString stadiumToVisit = ui->combobox_distance_checker->currentText();
+    ui->stWid->setCurrentWidget(ui->page_Trip);
+
+    ui->tableWidget_Trip->setRowCount(2);
+    QTableWidgetItem *insert = new QTableWidgetItem("Los Angeles Memorial Coliseum");
+    ui->tableWidget_Trip->setItem(0,0,insert);
+
+
+    insert = new QTableWidgetItem(stadiumToVisit);
+    ui->tableWidget_Trip->setItem(1,0,insert);
+
     int distance;
 
     distance = graph.getCost(stadiumToVisit);
+    ui->lineEdit_Distance_Trip->clear();
+    ui->lineEdit_Distance_Summary->clear();
+    ui->lineEdit_Distance_Trip->setText(QString::number(distance));
+    ui->lineEdit_Distance_Summary->setText(QString::number(distance));
 
-    QTableWidgetItem *distanceItem = new QTableWidgetItem(QString::number(distance));
-    dijkstraModel->setItem(0,0,distanceItem);
     qDebug() << distance;
 }
