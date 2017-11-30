@@ -141,10 +141,11 @@ void AdminWindow::on_sumbitSouvenirButton_clicked()
 
     //sets up the querys
     QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("INSERT INTO Souvenirs (Team,Item,Price) VALUES (:team, :name, :cost)");
+    query->prepare("INSERT INTO Souvenirs (Team,Item,Price,Stadium) VALUES (:team, :name, :cost,:stadium)");
     query->bindValue(":team", teamName);
     query->bindValue(":name", name);
     query->bindValue(":cost", cost);
+    query->bindValue(":stadium",getStadiumName(teamName));
 
     if(query->exec())
         QMessageBox::information(this,"Souvenir successfully Added", "Souvenir Successfully Added", QMessageBox::Ok);
@@ -248,11 +249,15 @@ void AdminWindow::on_changeTeamInfoButton_clicked()
     QSqlQueryModel * model = new QSqlQueryModel();
 
     //Updates the current info
-    updateQuery->prepare("UPDATE TeamInfo SET StadiumName = (:stadiumName), SeatingCapacity = (:capacityNum) WHERE Team = (:team)");
+    updateQuery->prepare("UPDATE TeamInfo SET StadiumName = (:stadiumName), SeatingCapacity = (:capacityNum) WHERE TeamName = (:team)");
     updateQuery->bindValue(":stadiumName",stadiumName);
     updateQuery->bindValue(":capacityNum",cap);
     updateQuery->bindValue(":team",teamName);
-    updateQuery->exec();
+
+    if(updateQuery->exec())
+        QMessageBox::information(this,"Updated Info","Updated the Info!",QMessageBox::Ok);
+    else
+        QMessageBox::information(this,"Failure to update info","Failure to update info",QMessageBox::Ok);
 
     //Shows the updated db info
     teamQuery->prepare("SELECT * FROM TeamInfo ORDER by TeamName asc");
@@ -311,4 +316,20 @@ void AdminWindow::reloadTableViews()
     ui->editTeamsView->setModel(model);
     ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+}
+
+QString AdminWindow::getStadiumName(QString teamName)
+{
+    QString stadiumName;
+    QSqlQuery *nameQuery = new QSqlQuery(db);
+
+    nameQuery->prepare("SELECT StadiumName FROM TeamInfo WHERE TeamName == (:teamName)");
+    nameQuery->bindValue(":teamName",teamName);
+    nameQuery->exec();
+
+    while (nameQuery->next()) {
+         stadiumName = nameQuery->value(0).toString();
+    }
+
+    return stadiumName;
 }

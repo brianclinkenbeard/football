@@ -49,6 +49,8 @@ private slots:
 
     void reloadTableViews();
 
+    QString getStadiumName(QString teamName);
+
 private:
     Ui::AdminWindow *ui;
     QVector<QString> teamNames;
