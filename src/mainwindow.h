@@ -75,6 +75,18 @@ private slots:
 
     void on_pushButton_get_distance_clicked();
 
+    void on_pushButton_custom_specific_clicked();
+
+    void on_pushButton_custom_shortest_clicked();
+
+    void on_pushButton_select_stadium_back_clicked();
+
+    void on_comboBox_start_stadium_activated(const QString &arg1);
+
+    void on_tableView_select_stadium_doubleClicked(const QModelIndex &index);
+
+    void on_pushButton_clear_stadium_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
