@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_Summary->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
+    ui->tableView_select_stadium->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // populate team name combobox for single team info (in constructor so it happens only once)
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("SELECT DISTINCT TeamName FROM TeamInfo");
@@ -463,4 +463,95 @@ void MainWindow::on_pushButton_get_distance_clicked()
     ui->lineEdit_Distance_Summary->setText(QString::number(distance));
 
     qDebug() << distance;
+}
+
+void MainWindow::on_pushButton_custom_specific_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_select_stadium);
+    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
+    query->exec();
+
+    int row = 1;
+    while(query->next()){
+        qDebug() << "Adding to combobox: " << query->value(0).toString();
+        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
+        ++row;
+    }
+}
+
+void MainWindow::on_pushButton_custom_shortest_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_select_stadium);
+    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
+    query->exec();
+
+    int row = 1;
+    while(query->next()){
+        qDebug() << "Adding to combobox: " << query->value(0).toString();
+        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
+        ++row;
+    }
+}
+
+void MainWindow::on_pushButton_select_stadium_back_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_home);
+    ui->comboBox_start_stadium->clear();
+    ui->listWidget_selected_stadium->clear();
+
+    ui->tableView_select_stadium->setModel(new QSqlQueryModel());
+}
+
+void MainWindow::on_comboBox_start_stadium_activated(const QString &arg1)
+{
+    ui->listWidget_selected_stadium->clear();
+    ui->tableView_select_stadium->setModel(new QSqlQueryModel());
+    if(arg1 != "<Select Starting Stadium>"){
+        ui->listWidget_selected_stadium->clear();
+        qDebug() << "Starting stadium: " << arg1;
+
+        QSqlQuery *query = new QSqlQuery(db);
+        query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo WHERE StadiumName != :stadium");
+        query->bindValue(":stadium", arg1);
+        query->exec();
+
+        //unhides rows
+        for(int i=0; i<query->size() ; ++i){
+            ui->tableView_select_stadium->showRow(i);
+        }
+
+        QSqlQueryModel *model = new QSqlQueryModel();
+        model->setQuery(*query);
+
+        ui->tableView_select_stadium->setModel(model);
+    }
+    else{
+        ui->tableView_select_stadium->setModel(new QSqlQueryModel());
+    }
+}
+
+void MainWindow::on_tableView_select_stadium_doubleClicked(const QModelIndex &index)
+{
+    ui->tableView_select_stadium->hideRow(index.row());
+    //dont know how this works
+    QModelIndex i = index.sibling(index.row(), 0);
+    ui->listWidget_selected_stadium->addItem(i.model()->data(index).toString());
+}
+
+void MainWindow::on_pushButton_clear_stadium_clicked()
+{
+    //clears list widget and resets the table view
+    ui->listWidget_selected_stadium->clear();
+    ui->tableView_select_stadium->setModel(new QSqlQueryModel());
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo WHERE StadiumName != :stadium");
+    query->bindValue(":stadium", ui->comboBox_start_stadium->currentText());
+    query->exec();
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery(*query);
+    ui->tableView_select_stadium->setModel(model);
 }
