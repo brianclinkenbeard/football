@@ -571,3 +571,8 @@ void MainWindow::on_pushButton_custom_trip_clicked()
         ++row;
     }
 }
+
+void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
+{
+    graph.recursiveDijkstra(ui->comboBox_start_stadium->currentText());
+}

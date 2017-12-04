@@ -50,6 +50,7 @@ public:
     void BFS(Type vertex);
     void Dijkstra(Type vertex);
     void MST(Type vertex);
+    void recursiveDijkstra(Type vertex);
 
     void printEdgeListType();
 
@@ -72,6 +73,9 @@ private:
     void setReverse(Type vertex1, Type vertex2);
     void setDiscovery(Type vertex1, Type vertex2);
 
+    int findSmallest();
+    void recursiveDijkstra(Type vertex,int position);
+
     QList<int> getPath(int startVertex,int endVertex,QVector<int> parent);
     void clearVisitedVertex();
     void clearEdgeType();
@@ -79,6 +83,7 @@ private:
     int numberOfVertex;
     QVector<Vertex> adjList;
     int totalDistance;
+    int location;
 
     QVector<QString> order;
 
@@ -468,8 +473,7 @@ void Graph<Type>::Dijkstra(Type vertex)
     QVector<int> parent(numberOfVertex);
 
     //Code to set the cost array
-    for(int i = 0; i < adjList.size(); i++)
-    {
+    for(int i = 0; i < adjList.size(); i++){
         adjList[i].cost = std::numeric_limits<int>::max();
     }
 
@@ -484,17 +488,14 @@ void Graph<Type>::Dijkstra(Type vertex)
 
     Q.push(adjList[start]);
 
-    while(!Q.empty())
-    {
+    while(!Q.empty()){
         u = Q.top();
         Q.pop();
-        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++)
-        {
+        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++){
             int foundVertex = findVertexIndex(u.name);
             int foundEdgeVertex = findVertexIndex(adjList[foundVertex].edgeList[i].destination);
             if(adjList[foundVertex].cost + getWeight(adjList[foundVertex].name,adjList[foundEdgeVertex].name)
-               < adjList[foundEdgeVertex].cost)
-            {
+               < adjList[foundEdgeVertex].cost){
                 adjList[foundEdgeVertex].cost = adjList[foundVertex].cost +
                                                 getWeight(adjList[foundVertex].name, adjList[foundEdgeVertex].name);
                 parent[foundEdgeVertex] = foundVertex;
@@ -504,11 +505,10 @@ void Graph<Type>::Dijkstra(Type vertex)
     }
 
 
-    for(int i = 0; i < adjList.size(); i++)
-        {
-            qDebug() << "Cost is " << adjList[i].cost << " to go from "
-                 << adjList[start].name << " to " << adjList[i].name << endl;
-        }
+    for(int i = 0; i < adjList.size(); i++){
+        qDebug() << "Cost is " << adjList[i].cost << " to go from "
+             << adjList[start].name << " to " << adjList[i].name << endl;
+    }
 
 
 }
@@ -524,8 +524,7 @@ void Graph<Type>::MST(Type vertex)
     QVector<bool> isInMST(numberOfVertex);
 
     //Code to set the cost array
-    for(int i = 0; i < adjList.size(); i++)
-    {
+    for(int i = 0; i < adjList.size(); i++){
         adjList[i].cost = std::numeric_limits<int>::max();
     }
 
@@ -537,20 +536,17 @@ void Graph<Type>::MST(Type vertex)
 
     Q.push(adjList[findVertexIndex(vertex)]);
 
-    while(!Q.empty())
-    {
+    while(!Q.empty()){
         u = Q.top();
         Q.pop();
 
         isInMST[findVertexIndex(u.name)] = true;
 
-        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++)
-        {
+        for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++){
             int foundVertex = findVertexIndex(u.name);
             int foundEdgeVertex = findVertexIndex(adjList[foundVertex].edgeList[i].destination);
             if(getWeight(adjList[foundVertex].name,adjList[foundEdgeVertex].name)
-               < adjList[foundEdgeVertex].cost && !isInMST[foundEdgeVertex])
-            {
+               < adjList[foundEdgeVertex].cost && !isInMST[foundEdgeVertex]){
                 adjList[foundEdgeVertex].cost = getWeight(adjList[foundVertex].name, adjList[foundEdgeVertex].name);
                 parent[foundEdgeVertex] = adjList[foundVertex].name;
                 Q.push(adjList[foundEdgeVertex]);
@@ -558,8 +554,7 @@ void Graph<Type>::MST(Type vertex)
         }
     }
 
-    for(int i = 0; i < adjList.size(); i++)
-    {
+    for(int i = 0; i < adjList.size(); i++){
         qDebug() << "Cost is " << adjList[i].cost
              << " to go from " << parent[i]
              << " to " << adjList[i].name << endl;
@@ -578,5 +573,41 @@ int Graph<Type>::getCost(Type vertex)
     return adjList[position].cost;
 }
 
+template <class Type>
+void Graph<Type>::recursiveDijkstra(Type vertex)
+{
+    recursiveDijkstra(vertex,1);
+}
+
+template <class Type>
+void Graph<Type>::recursiveDijkstra(Type vertex,int position)
+{
+    adjList[findVertexIndex(vertex)].visited = true;
+    if(position != numberOfVertex){
+        Dijkstra(vertex);
+        location = findSmallest();
+        totalDistance += adjList[location].cost;
+        qDebug() << "Closest Stadium: " << adjList[location].name;
+        recursiveDijkstra(adjList[location].name,position+1);
+    }
+    else{
+        totalDistance += adjList[location].cost;
+    }
+}
+
+template <class Type>
+int Graph<Type>::findSmallest()
+{
+    int smallestCost = 999999;
+    int smallestIndex;
+
+    for(int i = 0; i < adjList.size(); i++){
+        if(adjList[i].cost < smallestCost && adjList[i].cost != 0 && !adjList[i].visited){
+            smallestCost = adjList[i].cost;
+            smallestIndex = i;
+        }
+    }
+    return smallestIndex;
+}
 
 #endif //DFS_AND_BFS_GRAPH_H
