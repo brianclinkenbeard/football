@@ -465,37 +465,37 @@ void MainWindow::on_pushButton_get_distance_clicked()
     qDebug() << distance;
 }
 
-void MainWindow::on_pushButton_custom_specific_clicked()
-{
-    ui->stWid->setCurrentWidget(ui->page_select_stadium);
-    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
-    QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
-    query->exec();
+//void MainWindow::on_pushButton_custom_specific_clicked()
+//{
+//    ui->stWid->setCurrentWidget(ui->page_select_stadium);
+//    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
+//    QSqlQuery *query = new QSqlQuery(db);
+//    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
+//    query->exec();
 
-    int row = 1;
-    while(query->next()){
-        qDebug() << "Adding to combobox: " << query->value(0).toString();
-        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
-        ++row;
-    }
-}
+//    int row = 1;
+//    while(query->next()){
+//        qDebug() << "Adding to combobox: " << query->value(0).toString();
+//        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
+//        ++row;
+//    }
+//}
 
-void MainWindow::on_pushButton_custom_shortest_clicked()
-{
-    ui->stWid->setCurrentWidget(ui->page_select_stadium);
-    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
-    QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
-    query->exec();
+//void MainWindow::on_pushButton_custom_shortest_clicked()
+//{
+//    ui->stWid->setCurrentWidget(ui->page_select_stadium);
+//    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
+//    QSqlQuery *query = new QSqlQuery(db);
+//    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
+//    query->exec();
 
-    int row = 1;
-    while(query->next()){
-        qDebug() << "Adding to combobox: " << query->value(0).toString();
-        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
-        ++row;
-    }
-}
+//    int row = 1;
+//    while(query->next()){
+//        qDebug() << "Adding to combobox: " << query->value(0).toString();
+//        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
+//        ++row;
+//    }
+//}
 
 void MainWindow::on_pushButton_select_stadium_back_clicked()
 {
@@ -554,4 +554,20 @@ void MainWindow::on_pushButton_clear_stadium_clicked()
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setQuery(*query);
     ui->tableView_select_stadium->setModel(model);
+}
+
+void MainWindow::on_pushButton_custom_trip_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_select_stadium);
+    ui->comboBox_start_stadium->insertItem(0, "<Select Starting Stadium>");
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT DISTINCT StadiumName FROM TeamInfo");
+    query->exec();
+
+    int row = 1;
+    while(query->next()){
+        qDebug() << "Adding to combobox: " << query->value(0).toString();
+        ui->comboBox_start_stadium->insertItem(row, query->value(0).toString());
+        ++row;
+    }
 }
