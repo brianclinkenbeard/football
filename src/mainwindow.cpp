@@ -574,5 +574,11 @@ void MainWindow::on_pushButton_custom_trip_clicked()
 
 void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
 {
-    graph.recursiveDijkstra(ui->comboBox_start_stadium->currentText());
+    graph.nameVector.clear();
+    graph.resetDistance();
+    graph.nameVector.push_back(ui->comboBox_start_stadium->currentText());
+    for(int i = 0; i < ui->listWidget_selected_stadium->count(); i++) {
+        graph.nameVector.push_back(ui->listWidget_selected_stadium->item(i)->text());
+    }
+    graph.recursiveDijkstra(ui->comboBox_start_stadium->currentText(),ui->listWidget_selected_stadium->count()+1);
 }

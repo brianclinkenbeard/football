@@ -117,9 +117,10 @@ public:
     /*!
      * \brief recursiveDijkstra
      * \param vertex
+     * \param timesToRecurse
      * \fn performs recursive dijkstra from said vertex
      */
-    void recursiveDijkstra(Type vertex);
+    void recursiveDijkstra(Type vertex, int timesToRecurse);
 
     void printEdgeListType();
 
@@ -132,6 +133,9 @@ public:
     QVector<QString> getOrder();
     int getTotalDistance();
     int getCost(Type vertex);
+    void resetDistance();
+
+    QVector<QString> nameVector;
 
 private:
 
@@ -144,11 +148,13 @@ private:
     void DFS(int index);
     void BFS(int index);
 
+    bool isInList(Type vertex);
+
     void setReverse(Type vertex1, Type vertex2);
     void setDiscovery(Type vertex1, Type vertex2);
 
     int findSmallest();
-    void recursiveDijkstra(Type vertex,int position);
+    void recursiveDijkstra(Type vertex,int position, int length);
 
     void clearVisitedVertex();
     void clearEdgeType();
@@ -729,9 +735,9 @@ template <class Type>
  * \brief Graph<Type>::recursiveDijkstra
  * \param vertex
  */
-void Graph<Type>::recursiveDijkstra(Type vertex)
+void Graph<Type>::recursiveDijkstra(Type vertex, int timesToRecurse)
 {
-    recursiveDijkstra(vertex,1);
+    recursiveDijkstra(vertex,1,timesToRecurse);
 }
 
 template <class Type>
@@ -741,16 +747,17 @@ template <class Type>
  * \param position
  * \fn Recusrively performs dijkstra on the vertex and position until it visits every stadium
  */
-void Graph<Type>::recursiveDijkstra(Type vertex,int position)
+void Graph<Type>::recursiveDijkstra(Type vertex,int position,int length)
 {
     adjList[findVertexIndex(vertex)].visited = true;
-    if(position != numberOfVertex) {
+    if(position != length) {
         Dijkstra(vertex);
         location = findSmallest();
         totalDistance += adjList[location].cost;
         qDebug() << "Closest Stadium: " << adjList[location].name;
-        recursiveDijkstra(adjList[location].name,position+1);
+        recursiveDijkstra(adjList[location].name,position+1,length);
     }
+    qDebug() << totalDistance;
 }
 
 template <class Type>
@@ -765,7 +772,7 @@ int Graph<Type>::findSmallest()
     int smallestIndex;
 
     for(int i = 0; i < adjList.size(); i++) {
-        if(adjList[i].cost < smallestCost && adjList[i].cost != 0 && !adjList[i].visited) {
+        if(adjList[i].cost < smallestCost && adjList[i].cost != 0 && !adjList[i].visited && isInList(adjList[i].name)) {
             smallestCost = adjList[i].cost;
             smallestIndex = i;
         }
@@ -773,5 +780,24 @@ int Graph<Type>::findSmallest()
     return smallestIndex;
 }
 
+template <class Type>
+bool Graph<Type>::isInList(Type vertex)
+{
+    for(int i = 0; i < nameVector.size(); i++) {
+        if(nameVector.at(i) == vertex)
+           return true;
+    }
+    return false;
+}
+
+template <class Type>
+/*!
+ * \brief Graph<Type>::resetDistance
+ * \fn resets total distance
+ */
+void Graph<Type>::resetDistance()
+{
+    totalDistance = 0;
+}
 
 #endif //DFS_AND_BFS_GRAPH_H
