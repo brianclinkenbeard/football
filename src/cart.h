@@ -87,7 +87,7 @@ public:
     }
 
 private:
-    QVector<Stadium> stadiumList;   /*!<    List of Stadiums /
+    QVector<Stadium> stadiumList;   /*!<    List of Stadiums */
 };
 
 
