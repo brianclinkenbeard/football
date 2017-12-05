@@ -10,15 +10,34 @@ struct Souvenir{
 
 class Stadium{
 public:
-    Stadium(){
+    /*!
+     * \brief Stadium
+     * \fn default constructor
+     */
+    Stadium()
+    {
         stadiumName = "DEFAULT";
     }
 
-    void setStadiumName(QString input){
+    /*!
+     * \brief setStadiumName
+     * \param input
+     * \fn constructor
+     */
+    void setStadiumName(QString input)
+    {
         stadiumName = input;
     }
 
-    void addSouvenir(QString team, QString item, double price){
+    /*!
+     * \brief addSouvenir
+     * \param team
+     * \param item
+     * \param price
+     * \fn adds a new souvenir to the team
+     */
+    void addSouvenir(QString team, QString item, double price)
+    {
         Souvenir temp;
         temp.team = team;
         temp.item = item;
@@ -26,27 +45,42 @@ public:
         souvenirList.append(temp);
     }
 
-    double getTotalAmount(){
+    /*!
+     * \brief getTotalAmount
+     * \return double total amount spent
+     */
+    double getTotalAmount()
+    {
         double cost = 0;
-        for(int i=0; i<souvenirList.size(); ++i){
+        for(int i=0; i<souvenirList.size(); ++i)
             cost += souvenirList[i].price;
-        }
+
         qDebug() << cost;
         return cost;
     }
 
-    int getSouvenirQuantity(){
+    /*!
+     * \brief getSouvenirQuantity
+     * \return int quantity of souvenirs bought
+     */
+    int getSouvenirQuantity()
+    {
         qDebug() << souvenirList.size();
         return souvenirList.size();
     }
 
-    QString getName(){
+    /*!
+     * \brief getName
+     * \return QString name of stadium
+     */
+    QString getName()
+    {
         return stadiumName;
     }
 
 private:
-    QVector<Souvenir> souvenirList;
-    QString stadiumName;
+    QVector<Souvenir> souvenirList; /*! < List of souvenirs */
+    QString stadiumName;            /*! < Name of stadium   */
 };
 
 #endif // STADIUM_H
