@@ -737,7 +737,14 @@ template <class Type>
  */
 void Graph<Type>::recursiveDijkstra(Type vertex, int timesToRecurse)
 {
+    order.clear();
+    this->clearEdgeType();
+    this->clearVisitedVertex();
+    order.append(vertex);
     recursiveDijkstra(vertex,1,timesToRecurse);
+
+    this->clearEdgeType();
+    this->clearVisitedVertex();
 }
 
 template <class Type>
@@ -755,6 +762,7 @@ void Graph<Type>::recursiveDijkstra(Type vertex,int position,int length)
         location = findSmallest();
         totalDistance += adjList[location].cost;
         qDebug() << "Closest Stadium: " << adjList[location].name;
+        order.append(adjList[location].name);
         recursiveDijkstra(adjList[location].name,position+1,length);
     }
     qDebug() << totalDistance;
