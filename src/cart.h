@@ -4,55 +4,90 @@
 #include "stadium.h"
 #include <QVector>
 
-class Cart{
+class Cart {
 public:
-
-    void clear(){
+    /*!
+     * \brief clear
+     * \fn clears stadium list
+     */
+    void clear()
+    {
         stadiumList.clear();
     }
 
-    int size(){
+    /*!
+     * \brief size
+     * \return int size of stadium list
+     */
+    int size()
+    {
         return stadiumList.size();
     }
 
-    QVector<Stadium> getStadiumList(){
+    /*!
+     * \brief getStadiumList
+     * \return stadium list
+     */
+    QVector<Stadium> getStadiumList()
+    {
         return stadiumList;
     }
 
-    void addStadium(QString stadium){
+    /*!
+     * \brief addStadium
+     * \param stadium
+     * \fn adds a stadium to the stadium list
+     */
+    void addStadium(QString stadium)
+    {
         Stadium temp;
         temp.setStadiumName(stadium);
         stadiumList.append(temp);
     }
 
-    void addSouvenir(QString stadium, QString team, QString item, double price, int quantity){
+    /*!
+     * \brief addSouvenir
+     * \param stadium
+     * \param team
+     * \param item
+     * \param price
+     * \param quantity
+     * \fn adds a souvenir to a stadium/team
+     */
+    void addSouvenir(QString stadium, QString team, QString item, double price, int quantity)
+    {
         bool found = false;
-        for(int i=0;i<stadiumList.size(); ++i){
-            if(stadiumList[i].getName() == stadium){
+        for (int i=0;i<stadiumList.size(); ++i) {
+            if (stadiumList[i].getName() == stadium) {
                 found = true;
-                for(int j=0; j<quantity; ++j){
+                for (int j=0; j<quantity; ++j) {
                     stadiumList[i].addSouvenir(team,item,price);
                 }
             }
         }
-        if(!found){
+        if (!found) {
             this->addStadium(stadium);
             //too lazy to code so I recursively called it again
             this->addSouvenir(stadium, team, item, price, quantity);
         }
     }
 
-    double getTotalAmount(){
+    /*!
+     * \brief getTotalAmount
+     * \return double total amount spent
+     */
+    double getTotalAmount()
+    {
         double cost = 0;
-        for(int i=0; i<stadiumList.size(); ++i){
+        for (int i=0; i<stadiumList.size(); ++i)
             cost += stadiumList[i].getTotalAmount();
-        }
+
         qDebug() << cost;
         return cost;
     }
 
 private:
-    QVector<Stadium> stadiumList;
+    QVector<Stadium> stadiumList;   /*!<    List of Stadiums /
 };
 
 
