@@ -466,6 +466,7 @@ void MainWindow::on_pushButton_get_distance_clicked()
         ui->lineEdit_Distance_Summary->setText(QString::number(distance));
 
         qDebug() << distance;
+        ui->combobox_distance_checker->clear();
     }
 }
 
