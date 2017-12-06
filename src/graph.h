@@ -118,9 +118,17 @@ public:
      * \brief recursiveDijkstra
      * \param vertex
      * \param timesToRecurse
-     * \fn performs recursive dijkstra from said vertex
+     * \fn performs recursive dijkstra from said vertex to find the shortest path between the selected stadiums
      */
     void recursiveDijkstra(Type vertex, int timesToRecurse);
+
+    /*!
+     * \brief startSpecificRoute
+     * \param vertex
+     * \param timesToRecurse
+     * \fn Performs recursive dijkstra but follows a specific path
+     */
+    void startSpecificRoute(Type vertex, int timesToRecurse);
 
     void printEdgeListType();
 
@@ -155,6 +163,8 @@ private:
 
     int findSmallest();
     void recursiveDijkstra(Type vertex,int position, int length);
+
+    void startSpecificRoute(Type vertex, int position, int length);
 
     void clearVisitedVertex();
     void clearEdgeType();
@@ -741,6 +751,7 @@ void Graph<Type>::recursiveDijkstra(Type vertex, int timesToRecurse)
     this->clearEdgeType();
     this->clearVisitedVertex();
     order.append(vertex);
+    totalDistance = 0;
     recursiveDijkstra(vertex,1,timesToRecurse);
 
     this->clearEdgeType();
@@ -796,6 +807,50 @@ bool Graph<Type>::isInList(Type vertex)
            return true;
     }
     return false;
+}
+
+template <class Type>
+/*!
+ * \brief Graph<Type>::startSpecificRoute
+ * \param vertex
+ * \param timesToRecurse
+ * \fn Calls the helper function that will visits the specified stadiums in nameVector in order
+ */
+void Graph<Type>::startSpecificRoute(Type vertex, int timesToRecurse)
+{
+    order.clear();
+    this->clearEdgeType();
+    this->clearVisitedVertex();
+    order.append(vertex);
+    totalDistance = 0;
+    startSpecificRoute(vertex,1,timesToRecurse);
+
+    this->clearEdgeType();
+    this->clearVisitedVertex();
+}
+
+template <class Type>
+/*!
+ * \brief Graph<Type>::startSpecificRoute
+ * \param vertex
+ * \param position
+ * \param length
+ * \fn Visits the specified stadiums chosen by the user in the same order using dijkstra
+ */
+void Graph<Type>::startSpecificRoute(Type vertex, int position, int length)
+{
+    adjList[findVertexIndex(vertex)].visited = true;
+    if(position != length) {
+        Dijkstra(vertex);
+
+        location = findVertexIndex(nameVector[position]);
+        totalDistance += adjList[location].cost;
+        qDebug() << "Going to Stadium: " << adjList[location].name;
+        order.append(adjList[location].name);
+        recursiveDijkstra(adjList[location].name,position+1,length);
+    }
+
+    qDebug() << totalDistance;
 }
 
 template <class Type>

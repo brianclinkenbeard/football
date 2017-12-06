@@ -87,6 +87,8 @@ private slots:
 
     void on_pushButton_begin_shortest_custom_trip_clicked();
 
+    void on_pushButton_begin_specific_custom_trip_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();

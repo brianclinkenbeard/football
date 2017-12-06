@@ -573,3 +573,33 @@ void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
     }
 
 }
+
+void MainWindow::on_pushButton_begin_specific_custom_trip_clicked()
+{
+    if(ui->listWidget_selected_stadium->count() > 0)
+    {
+        graph.nameVector.clear();
+        graph.resetDistance();
+        graph.nameVector.push_back(ui->comboBox_start_stadium->currentText());
+        for(int i = 0; i < ui->listWidget_selected_stadium->count(); i++) {
+            graph.nameVector.push_back(ui->listWidget_selected_stadium->item(i)->text());
+        }
+        graph.startSpecificRoute(ui->comboBox_start_stadium->currentText(),ui->listWidget_selected_stadium->count()+1);
+
+        QVector<QString> list = graph.getOrder();
+
+        ui->tableWidget_Trip->setRowCount(list.size());
+        for(int i=0; i<list.size(); ++i){
+            QTableWidgetItem *insert = new QTableWidgetItem(list[i]);
+            ui->tableWidget_Trip->setItem(i,0,insert);
+        }
+
+        ui->lineEdit_Distance_Trip->insert(QString::number(graph.getTotalDistance()));
+        ui->lineEdit_Distance_Summary->insert(QString::number(graph.getTotalDistance()));
+        ui->stWid->setCurrentWidget(ui->page_Trip);
+
+        ui->comboBox_start_stadium->clear();
+        ui->tableView_select_stadium->setModel(new QSqlQueryModel());
+        ui->listWidget_selected_stadium->clear();
+    }
+}
