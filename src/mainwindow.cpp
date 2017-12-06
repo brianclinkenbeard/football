@@ -25,22 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     graph.loadGraph(graph);
 
-//    graph.DFS("Hard Rock Stadium");
-//    QVector<QString> temp = graph.getOrder();
-//    qDebug() << "DFS traversal: \n";
-//    for(int i=0; i<temp.size(); ++i){
-//        qDebug() << temp[i];
-//    }
-//    qDebug() << "end\n";
-
-//    graph.BFS("Lambeau Field");
-//    temp = graph.getOrder();
-//    qDebug() << "BFS traversal: \n";
-//    for(int i=0; i<temp.size(); ++i){
-//        qDebug() << temp[i];
-//    }
-//    qDebug() << "end\n";
-
     // hide roof count label
     ui->openRoofCountLabel->hide();
 }
@@ -306,6 +290,7 @@ void MainWindow::reloadComboBoxes()
 void MainWindow::on_pushButton_DFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.loadGraph(graph);
     graph.DFS("Hard Rock Stadium");
     QVector<QString> list = graph.getOrder();
 
@@ -324,6 +309,7 @@ void MainWindow::on_pushButton_DFS_clicked()
 void MainWindow::on_pushButton_BFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.loadGraph(graph);
     graph.BFS("Lambeau Field");
     QVector<QString> list = graph.getOrder();
 
@@ -564,6 +550,7 @@ void MainWindow::on_pushButton_custom_trip_clicked()
 
 void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
 {
+    graph.loadGraph(graph);
     if(ui->listWidget_selected_stadium->count() > 0)
     {
         graph.nameVector.clear();
@@ -595,6 +582,7 @@ void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
 
 void MainWindow::on_pushButton_begin_specific_custom_trip_clicked()
 {
+    graph.loadGraph(graph);
     if(ui->listWidget_selected_stadium->count() > 0)
     {
         graph.nameVector.clear();
@@ -632,6 +620,7 @@ void MainWindow::on_pushButton_mst_clicked()
 
     query->next();
 
+    graph.loadGraph(graph);
     int distance = graph.MST(query->value(0).toString());
 
     QMessageBox message;

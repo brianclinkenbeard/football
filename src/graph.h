@@ -595,6 +595,7 @@ template<class Type>
  */
 void Graph<Type>::loadGraph(Graph& g)
 {
+    g.adjList.clear();
     QSqlQuery* graphQuery = new QSqlQuery(db);
     graphQuery->prepare("SELECT DISTINCT Start FROM Distance");
     if(graphQuery->exec()) {
