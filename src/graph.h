@@ -651,10 +651,10 @@ void Graph<Type>::Dijkstra(Type vertex)
         for(int i = 0; i < adjList[findVertexIndex(u.name)].edgeList.size(); i++) {
             int foundVertex = findVertexIndex(u.name);
             int foundEdgeVertex = findVertexIndex(adjList[foundVertex].edgeList[i].destination);
-            if(adjList[foundVertex].cost + getWeight(adjList[foundVertex].name,adjList[foundEdgeVertex].name)
+            if(adjList[foundVertex].cost + adjList[foundVertex].edgeList[i].weight
                < adjList[foundEdgeVertex].cost) {
                 adjList[foundEdgeVertex].cost = adjList[foundVertex].cost +
-                                                getWeight(adjList[foundVertex].name, adjList[foundEdgeVertex].name);
+                                                adjList[foundVertex].edgeList[i].weight;
                 parent[foundEdgeVertex] = foundVertex;
                 Q.push(adjList[foundEdgeVertex]);
             }
