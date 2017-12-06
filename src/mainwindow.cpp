@@ -435,6 +435,7 @@ void MainWindow::on_pushButton_distance_checker_clicked()
     query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != 'Los Angeles Memorial Coliseum'");
     query->exec();
 
+    ui->combobox_distance_checker->addItem("<Select Stadium>");
     while(query->next()){
         ui->combobox_distance_checker->addItem(query->value(0).toString());
     }
@@ -443,26 +444,35 @@ void MainWindow::on_pushButton_distance_checker_clicked()
 
 void MainWindow::on_pushButton_get_distance_clicked()
 {
-    QString stadiumToVisit = ui->combobox_distance_checker->currentText();
-    ui->stWid->setCurrentWidget(ui->page_Trip);
+    if(ui->combobox_distance_checker->currentText() != "<Select Stadium>")
+    {
+        QString stadiumToVisit = ui->combobox_distance_checker->currentText();
+        ui->stWid->setCurrentWidget(ui->page_Trip);
 
-    ui->tableWidget_Trip->setRowCount(2);
-    QTableWidgetItem *insert = new QTableWidgetItem("Los Angeles Memorial Coliseum");
-    ui->tableWidget_Trip->setItem(0,0,insert);
+        ui->tableWidget_Trip->setRowCount(2);
+        QTableWidgetItem *insert = new QTableWidgetItem("Los Angeles Memorial Coliseum");
+        ui->tableWidget_Trip->setItem(0,0,insert);
 
 
-    insert = new QTableWidgetItem(stadiumToVisit);
-    ui->tableWidget_Trip->setItem(1,0,insert);
+        insert = new QTableWidgetItem(stadiumToVisit);
+        ui->tableWidget_Trip->setItem(1,0,insert);
 
-    int distance;
+        int distance;
 
-    distance = graph.getCost(stadiumToVisit);
-    ui->lineEdit_Distance_Trip->clear();
-    ui->lineEdit_Distance_Summary->clear();
-    ui->lineEdit_Distance_Trip->setText(QString::number(distance));
-    ui->lineEdit_Distance_Summary->setText(QString::number(distance));
+        distance = graph.getCost(stadiumToVisit);
+        ui->lineEdit_Distance_Trip->clear();
+        ui->lineEdit_Distance_Summary->clear();
+        ui->lineEdit_Distance_Trip->setText(QString::number(distance));
+        ui->lineEdit_Distance_Summary->setText(QString::number(distance));
 
-    qDebug() << distance;
+        qDebug() << distance;
+    }
+}
+
+void MainWindow::on_pushButton_Distance_Checker_Back_clicked()
+{
+    ui->stWid->setCurrentWidget(ui->page_home);
+    ui->combobox_distance_checker->clear();
 }
 
 void MainWindow::on_pushButton_select_stadium_back_clicked()
@@ -603,3 +613,22 @@ void MainWindow::on_pushButton_begin_specific_custom_trip_clicked()
         ui->listWidget_selected_stadium->clear();
     }
 }
+
+void MainWindow::on_pushButton_mst_clicked()
+{
+    //calls from database just incase stadium name is changed.
+    QSqlQuery *query = new QSqlQuery(db);
+    query->prepare("SELECT Start FROM Distance");
+    query->exec();
+
+    query->next();
+
+    int distance = graph.MST(query->value(0).toString());
+
+    QMessageBox message;
+    message.setText("MST Total Distance: " + QString::number(distance));
+    message.exec();
+
+}
+
+
