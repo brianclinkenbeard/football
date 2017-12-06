@@ -173,6 +173,14 @@ void MainWindow::populate_stadiums(bool open_roof)
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setQuery(query);
 
+    QSqlQuery *roofCount = new QSqlQuery(db);
+    roofCount->prepare("SELECT COUNT(DISTINCT StadiumName) FROM TeamInfo WHERE StadiumRoofType == 'Open'");
+    roofCount->exec();
+    roofCount->next();
+
+    int openCount = roofCount->value(0).toInt();
+    qDebug() << openCount;
+
     // filter by roof type
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
@@ -180,7 +188,7 @@ void MainWindow::populate_stadiums(bool open_roof)
     if (open_roof) {
         ui->openRoofCountLabel->show();
         proxyModel->setFilterRegExp("Open");
-        ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(proxyModel->rowCount()));
+        ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(openCount));
     }
 
     ui->tableView_teams_stadiums->setModel(proxyModel);
