@@ -113,7 +113,7 @@ public:
      * \param vertex
      * \fn Performs MST from said vertex
      */
-    void MST(Type vertex);
+    int MST(Type vertex);
     /*!
      * \brief recursiveDijkstra
      * \param vertex
@@ -676,7 +676,7 @@ template <class Type>
  * \param vertex
  * \fn performs MST from said vertex
  */
-void Graph<Type>::MST(Type vertex)
+int Graph<Type>::MST(Type vertex)
 {
     Vertex u;
     int distance = 0;
@@ -723,7 +723,11 @@ void Graph<Type>::MST(Type vertex)
         distance += adjList[i].cost;
     }
 
+    this->clearEdgeType();
+    this->clearVisitedVertex();
     qDebug() << "Total Distance is " << distance;
+
+    return distance;
 }
 
 template<class Type>

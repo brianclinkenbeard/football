@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
     Graph<QString> graph;
     graph.loadGraph(graph);
 
-    graph.Dijkstra("Los Angeles Memorial Coliseum");
-    graph.MST("Hard Rock Stadium");
+//    graph.Dijkstra("Los Angeles Memorial Coliseum");
+//    graph.MST("Hard Rock Stadium");
 
 
 //    graph.printAdjList();
