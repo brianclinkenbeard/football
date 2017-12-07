@@ -13,6 +13,40 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">MainWindow
+{
+	background-color: white;
+}
+
+QPushButton
+{
+	padding: 5px;
+	border-radius: 10px;
+	background-color: rgb(0, 170, 255);
+
+}
+
+QPushButton:hover { color: white }
+
+QComboBox
+{
+	padding: 5px;
+	background-color: rgb(0, 170, 255);
+	selection-background-color:  rgb(0, 170, 255);
+
+}
+
+QComboBox QAbstractItemView {
+	background-color: rgb(0, 170, 255);
+	selection-background-color:  rgb(0, 170, 255);
+}
+QComboBox QAbstractItemView:hover{
+	color: rgb(255, 255, 255);
+}
+
+</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -914,7 +948,7 @@
      <x>0</x>
      <y>0</y>
      <width>1152</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
