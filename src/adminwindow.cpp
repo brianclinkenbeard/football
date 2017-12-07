@@ -232,21 +232,12 @@ void AdminWindow::on_changeTeamInfoButton_clicked()
 
     QString cap = QString::number(capacity);
 
-//    unsigned int length = cap.length(); // Get the length of the string, so we know when we have to stop
-//    QString finalString; // Will be our output
-//    unsigned int commaOffset = length%3; // Get the comma offset
-//    for (unsigned int i = 0; i < length; ++i) {
-//        // If our Index%3 == CommaOffset and this isn't first character, add a comma
-//        if(i%3 == commaOffset && i)
-//            finalString += ','; // Add the comma
-
-//        finalString.append(cap[i]); // Add the original character
-//    }
-
-
     QSqlQuery *updateQuery = new QSqlQuery(db);
     QSqlQuery *teamQuery = new QSqlQuery(db);
     QSqlQueryModel * model = new QSqlQueryModel();
+
+    QString oldStadiumName = getStadiumName(teamName);
+    qDebug() << oldStadiumName;
 
     //Updates the current info
     updateQuery->prepare("UPDATE TeamInfo SET StadiumName = (:stadiumName), SeatingCapacity = (:capacityNum) WHERE TeamName = (:team)");
@@ -267,6 +258,26 @@ void AdminWindow::on_changeTeamInfoButton_clicked()
     ui->editTeamsView->setModel(model);
     ui->editTeamsView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->editTeamsView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QSqlQuery *updateDistanceQuery = new QSqlQuery(db);
+    QSqlQuery *updateSouvenirs = new QSqlQuery(db);
+
+    updateDistanceQuery->prepare("UPDATE Distance SET Destination = (:newName) WHERE Destination = (:oldName)");
+    updateDistanceQuery->bindValue(":newName",stadiumName);
+    updateDistanceQuery->bindValue(":oldName",oldStadiumName);
+    qDebug() << updateDistanceQuery->exec();
+
+    updateDistanceQuery->prepare("UPDATE Distance SET Start = (:newName) WHERE Start = (:oldName)");
+    updateDistanceQuery->bindValue(":newName",stadiumName);
+    updateDistanceQuery->bindValue(":oldName",oldStadiumName);
+    qDebug() << updateDistanceQuery->exec();
+
+    updateSouvenirs->prepare("UPDATE Souvenirs SET Stadium = (:newName) WHERE Stadium = (:oldName)");
+    updateSouvenirs->bindValue(":newName",stadiumName);
+    updateSouvenirs->bindValue(":oldName",oldStadiumName);
+    qDebug() << updateSouvenirs->exec();
+
+    qDebug() << "EXECUTED EVERYTHING";
 
 }
 

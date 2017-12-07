@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QQueue>
 #include <QSqlQueryModel>
+#include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
 
