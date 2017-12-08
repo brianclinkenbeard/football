@@ -423,17 +423,38 @@ void MainWindow::on_pushButton_Comfirm_Summary_clicked()
 
 void MainWindow::on_pushButton_distance_checker_clicked()
 {
+    graph.loadGraph(graph);
+
     ui->stWid->setCurrentWidget(ui->page_distance_checker);
 
+    ui->distance_checker_label->setText("Pick any stadium to see the distance it will take to get to from " + getStadiumName("Los Angeles Rams")  + '!');
+
     QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != 'Los Angeles Memorial Coliseum'");
+    query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != :teamName");
+    query->bindValue(":teamName",getStadiumName("Los Angeles Rams"));
     query->exec();
 
     ui->combobox_distance_checker->addItem("<Select Stadium>");
     while(query->next()){
         ui->combobox_distance_checker->addItem(query->value(0).toString());
     }
-    graph.Dijkstra("Los Angeles Memorial Coliseum");
+    graph.Dijkstra(getStadiumName("Los Angeles Rams"));
+}
+
+QString MainWindow::getStadiumName(QString teamName)
+{
+    QString stadiumName;
+    QSqlQuery *nameQuery = new QSqlQuery(db);
+
+    nameQuery->prepare("SELECT StadiumName FROM TeamInfo WHERE TeamName == (:teamName)");
+    nameQuery->bindValue(":teamName",teamName);
+    nameQuery->exec();
+
+    while (nameQuery->next()) {
+         stadiumName = nameQuery->value(0).toString();
+    }
+
+    return stadiumName;
 }
 
 void MainWindow::on_pushButton_get_distance_clicked()
@@ -444,7 +465,7 @@ void MainWindow::on_pushButton_get_distance_clicked()
         ui->stWid->setCurrentWidget(ui->page_Trip);
 
         ui->tableWidget_Trip->setRowCount(2);
-        QTableWidgetItem *insert = new QTableWidgetItem("Los Angeles Memorial Coliseum");
+        QTableWidgetItem *insert = new QTableWidgetItem(getStadiumName("Los Angeles Rams"));
         ui->tableWidget_Trip->setItem(0,0,insert);
 
 

@@ -279,6 +279,8 @@ void AdminWindow::on_changeTeamInfoButton_clicked()
 
     qDebug() << "EXECUTED EVERYTHING";
 
+    reloadTableViews();
+
 }
 
 void AdminWindow::reloadComboBoxes()
