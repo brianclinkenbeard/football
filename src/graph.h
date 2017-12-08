@@ -138,8 +138,24 @@ public:
      * \fn Loads the graph into the object passed in
      */
     void loadGraph(Graph &g);
+    /*!
+     * \brief getOrder
+     * \return QVector<QString>
+     * \fn gets order
+     */
     QVector<QString> getOrder();
+    /*!
+     * \brief getTotalDistance
+     * \return int
+     * \fn gets total distance
+     */
     int getTotalDistance();
+    /*!
+     * \brief getCost
+     * \param vertex
+     * \return int
+     * \fn gets cost of certain vertex
+     */
     int getCost(Type vertex);
     void resetDistance();
 
@@ -147,36 +163,115 @@ public:
 
 private:
 
+    /*!
+     * \brief findSmallestEdgeIndex
+     * \param ptr
+     * \return int
+     * \fn gets smallest edge vertex
+     */
     int findSmallestEdgeIndex(QVector<Edge> *ptr);
+    /*!
+     * \brief findVertexIndex
+     * \param vertex
+     * \return int
+     * \fn gets index
+     */
     int findVertexIndex(Type vertex);
 
+    /*!
+     * \brief checkAvailableVertices
+     * \param vertex
+     * \return bool
+     * \fn checks if we can visit vertices
+     */
     bool checkAvailableVertices(Type vertex);
+    /*!
+     * \brief checkAvailableVertices
+     * \param adjListIndex
+     * \return bool
+     * \fn checks if we can visit vertices
+     */
     bool checkAvailableVertices(int adjListIndex);
 
+    /*!
+     * \brief DFS
+     * \param index
+     * \fn performs DFS
+     */
     void DFS(int index);
+    /*!
+     * \brief BFS
+     * \param index
+     * \fn performs BFS
+     */
     void BFS(int index);
 
+    /*!
+     * \brief isInList
+     * \param vertex
+     * \return bool
+     * \fn checks if vertex is in the vector
+     */
     bool isInList(Type vertex);
 
+    /*!
+     * \brief setReverse
+     * \param vertex1
+     * \param vertex2
+     * \fn sets discovery edge the reverse way
+     */
     void setReverse(Type vertex1, Type vertex2);
+    /*!
+     * \brief setDiscovery
+     * \param vertex1
+     * \param vertex2
+     * \fn sets discovery edge
+     */
     void setDiscovery(Type vertex1, Type vertex2);
 
+    /*!
+     * \brief findSmallest
+     * \return int
+     * \fn gets smallest cost index
+     */
     int findSmallest();
+    /*!
+     * \brief recursiveDijkstra
+     * \param vertex
+     * \param position
+     * \param length
+     * \fn performs recursive dijkstra for length times
+     */
     void recursiveDijkstra(Type vertex,int position, int length);
 
+    /*!
+     * \brief startSpecificRoute
+     * \param vertex
+     * \param position
+     * \param length
+     * \fn does recursive dijkstra for the path they want to take
+     */
     void startSpecificRoute(Type vertex, int position, int length);
 
+    /*!
+     * \brief clearVisitedVertex
+     * \fn clears visited vertices
+     */
     void clearVisitedVertex();
+    /*!
+     * \brief clearEdgeType
+     * \fn clears edge type
+     */
     void clearEdgeType();
 
-    int numberOfVertex;
-    QVector<Vertex> adjList;
-    int totalDistance;
-    int location;
+    int numberOfVertex; /*!<    Number of vertices */
+    QVector<Vertex> adjList; /*!<    Adjcency List */
+    int totalDistance; /*!<    Total Distance */
+    int location; /*!<    Location index */
 
-    QVector<QString> order;
+    QVector<QString> order; /*!<    Order of Stadiums */
 
-    QSqlDatabase db = QSqlDatabase::database();
+    QSqlDatabase db = QSqlDatabase::database(); /*!<    Database connection */
 
 };
 
@@ -193,12 +288,25 @@ Graph<Type>::~Graph()
 {
 
 }
+
 template <class Type>
+/*!
+ * \brief Graph<Type>::getOrder
+ * \fn gets order of the traversal
+ * \return QVector<QString>
+ */
 QVector<QString> Graph<Type>::getOrder(){
     return order;
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::addEdge
+ * \param vertex1
+ * \param vertex2
+ * \param weight
+ * \fn adds edge to adj list
+ */
 void Graph<Type>::addEdge(Type vertex1, Type vertex2, int weight)
 {
     if(adjList.size() > 0) {
@@ -221,6 +329,11 @@ void Graph<Type>::addEdge(Type vertex1, Type vertex2, int weight)
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::addVertex
+ * \param vertex
+ * \fn adds vertex to adj list
+ */
 void Graph<Type>::addVertex(Type vertex)
 {
     Vertex newVertex;
@@ -232,6 +345,12 @@ void Graph<Type>::addVertex(Type vertex)
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::vertexExists
+ * \param vertex
+ * \fn checks if vertex exists
+ * \return bool
+ */
 bool Graph<Type>::vertexExists(Type vertex)
 {
     bool found = false;
@@ -246,6 +365,13 @@ bool Graph<Type>::vertexExists(Type vertex)
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::getWeight
+ * \param vertex1
+ * \param vertex2
+ * \fn gets weight between 2 vertices
+ * \return int
+ */
 int Graph<Type>::getWeight(Type vertex1, Type vertex2)
 {
     for(int i = 0; i < adjList.size(); i++) {
@@ -261,6 +387,10 @@ int Graph<Type>::getWeight(Type vertex1, Type vertex2)
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::printAdjList
+ * \fn prints the adj list
+ */
 void Graph<Type>::printAdjList()
 {
     for(int i = 0; i < adjList.size(); ++i){
@@ -275,6 +405,12 @@ void Graph<Type>::printAdjList()
 
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::findVertexIndex
+ * \param vertex
+ * \fn Finds the index of the vertex in the adj list
+ * \return int
+ */
 int Graph<Type>::findVertexIndex(Type vertex)
 {
     for(int i=0; i<adjList.size(); ++i){
@@ -377,6 +513,10 @@ void Graph<Type>::clearVisitedVertex()
 }
 
 template <class Type>
+/*!
+ * \brief Graph<Type>::clearEdgeType
+ * \fn clears edge type
+ */
 void Graph<Type>::clearEdgeType()
 {
     for (int i = 0; i < adjList.size(); ++i) {

@@ -14,6 +14,13 @@ login::~login()
     delete ui;
 }
 
+/*!
+ * \brief login::isAccount
+ * \param nameIn
+ * \param passIn
+ * \return bool
+ * \fn checks if the name and password match an account
+ */
 bool login::isAccount(QString nameIn, QString passIn)
 {
     /*
@@ -30,6 +37,13 @@ bool login::isAccount(QString nameIn, QString passIn)
     return false;
 }
 
+/*!
+ * \brief login::isAdmin
+ * \param nameIn
+ * \param passIn
+ * \return bool
+ * \fn checks if user name and password is an admin account
+ */
 bool login::isAdmin(QString nameIn, QString passIn)
 {
     int accountIndex;     //index of the account searched for
@@ -48,6 +62,13 @@ bool login::isAdmin(QString nameIn, QString passIn)
     return false;
 }
 
+/*!
+ * \brief login::addAccount
+ * \param nameIn
+ * \param passIn
+ * \param adminIn
+ * \fn adds account to vector
+ */
 void login::addAccount(QString nameIn, QString passIn, bool adminIn)
 {
     user insert;

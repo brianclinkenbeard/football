@@ -15,6 +15,10 @@ namespace Ui {
 class AdminWindow;
 }
 
+/*!
+ * \brief AdminWindow class
+ * \class Holds everything an admin would need to do
+ */
 class AdminWindow : public QDialog
 {
     Q_OBJECT
@@ -46,16 +50,30 @@ private slots:
 
     void on_changeTeamInfoButton_clicked();
 
+    /*!
+     * \brief reloadComboBoxes
+     * \fn reloads combo boxes
+     */
     void reloadComboBoxes();
 
+    /*!
+     * \brief reloadTableViews
+     * \fn reloads table views
+     */
     void reloadTableViews();
 
+    /*!
+     * \brief getStadiumName
+     * \param teamName
+     * \return QString
+     * \fn gets name of stadium based on team name
+     */
     QString getStadiumName(QString teamName);
 
 private:
     Ui::AdminWindow *ui;
-    QVector<QString> teamNames;
-    QSqlDatabase db = QSqlDatabase::database();
+    QVector<QString> teamNames; /*!<    List of team names */
+    QSqlDatabase db = QSqlDatabase::database(); /*!<    Database connection */
 };
 
 #endif // ADMINWINDOW_H

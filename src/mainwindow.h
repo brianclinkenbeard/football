@@ -20,6 +20,10 @@ namespace Ui {
 class MainWindow;
 }
 
+/*!
+ * \brief MainWindow class
+ * \class Holds everything a user would need to do
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -93,15 +97,21 @@ private slots:
 
     void on_pushButton_Distance_Checker_Back_clicked();
 
+    /*!
+     * \brief getStadiumName
+     * \param teamName
+     * \return QString
+     * \fn gets name of stadium based on team name
+     */
     QString getStadiumName(QString teamName);
 
 private:
     Ui::MainWindow *ui;
-    QSqlDatabase db = QSqlDatabase::database();
-    login Login;
+    QSqlDatabase db = QSqlDatabase::database(); /*!<    Database connection */
+    login Login; /*!<    Login reference */
 
-    Graph<QString> graph;
-    Cart cart;
+    Graph<QString> graph; /*!<    graph reference */
+    Cart cart; /*!<    Cart reference */
 
 
 
