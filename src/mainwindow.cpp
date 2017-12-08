@@ -25,22 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     graph.loadGraph(graph);
 
-//    graph.DFS("Hard Rock Stadium");
-//    QVector<QString> temp = graph.getOrder();
-//    qDebug() << "DFS traversal: \n";
-//    for(int i=0; i<temp.size(); ++i){
-//        qDebug() << temp[i];
-//    }
-//    qDebug() << "end\n";
-
-//    graph.BFS("Lambeau Field");
-//    temp = graph.getOrder();
-//    qDebug() << "BFS traversal: \n";
-//    for(int i=0; i<temp.size(); ++i){
-//        qDebug() << temp[i];
-//    }
-//    qDebug() << "end\n";
-
     // hide roof count label
     ui->openRoofCountLabel->hide();
 }
@@ -173,6 +157,14 @@ void MainWindow::populate_stadiums(bool open_roof)
     QSqlQueryModel *model = new QSqlQueryModel();
     model->setQuery(query);
 
+    QSqlQuery *roofCount = new QSqlQuery(db);
+    roofCount->prepare("SELECT COUNT(DISTINCT StadiumName) FROM TeamInfo WHERE StadiumRoofType == 'Open'");
+    roofCount->exec();
+    roofCount->next();
+
+    int openCount = roofCount->value(0).toInt();
+    qDebug() << openCount;
+
     // filter by roof type
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
@@ -180,7 +172,7 @@ void MainWindow::populate_stadiums(bool open_roof)
     if (open_roof) {
         ui->openRoofCountLabel->show();
         proxyModel->setFilterRegExp("Open");
-        ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(proxyModel->rowCount()));
+        ui->openRoofCountLabel->setText("Open Roof Count: " + QString::number(openCount));
     }
 
     ui->tableView_teams_stadiums->setModel(proxyModel);
@@ -298,6 +290,7 @@ void MainWindow::reloadComboBoxes()
 void MainWindow::on_pushButton_DFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.loadGraph(graph);
     graph.DFS("Hard Rock Stadium");
     QVector<QString> list = graph.getOrder();
 
@@ -316,6 +309,7 @@ void MainWindow::on_pushButton_DFS_clicked()
 void MainWindow::on_pushButton_BFS_clicked()
 {
     ui->stWid->setCurrentWidget(ui->page_Trip);
+    graph.loadGraph(graph);
     graph.BFS("Lambeau Field");
     QVector<QString> list = graph.getOrder();
 
@@ -429,17 +423,38 @@ void MainWindow::on_pushButton_Comfirm_Summary_clicked()
 
 void MainWindow::on_pushButton_distance_checker_clicked()
 {
+    graph.loadGraph(graph);
+
     ui->stWid->setCurrentWidget(ui->page_distance_checker);
 
+    ui->distance_checker_label->setText("Pick any stadium to see the distance it will take to get to from " + getStadiumName("Los Angeles Rams")  + '!');
+
     QSqlQuery *query = new QSqlQuery(db);
-    query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != 'Los Angeles Memorial Coliseum'");
+    query->prepare("SELECT DISTINCT Start FROM Distance WHERE Start != :teamName");
+    query->bindValue(":teamName",getStadiumName("Los Angeles Rams"));
     query->exec();
 
     ui->combobox_distance_checker->addItem("<Select Stadium>");
     while(query->next()){
         ui->combobox_distance_checker->addItem(query->value(0).toString());
     }
-    graph.Dijkstra("Los Angeles Memorial Coliseum");
+    graph.Dijkstra(getStadiumName("Los Angeles Rams"));
+}
+
+QString MainWindow::getStadiumName(QString teamName)
+{
+    QString stadiumName;
+    QSqlQuery *nameQuery = new QSqlQuery(db);
+
+    nameQuery->prepare("SELECT StadiumName FROM TeamInfo WHERE TeamName == (:teamName)");
+    nameQuery->bindValue(":teamName",teamName);
+    nameQuery->exec();
+
+    while (nameQuery->next()) {
+         stadiumName = nameQuery->value(0).toString();
+    }
+
+    return stadiumName;
 }
 
 void MainWindow::on_pushButton_get_distance_clicked()
@@ -450,7 +465,7 @@ void MainWindow::on_pushButton_get_distance_clicked()
         ui->stWid->setCurrentWidget(ui->page_Trip);
 
         ui->tableWidget_Trip->setRowCount(2);
-        QTableWidgetItem *insert = new QTableWidgetItem("Los Angeles Memorial Coliseum");
+        QTableWidgetItem *insert = new QTableWidgetItem(getStadiumName("Los Angeles Rams"));
         ui->tableWidget_Trip->setItem(0,0,insert);
 
 
@@ -556,6 +571,7 @@ void MainWindow::on_pushButton_custom_trip_clicked()
 
 void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
 {
+    graph.loadGraph(graph);
     if(ui->listWidget_selected_stadium->count() > 0)
     {
         graph.nameVector.clear();
@@ -587,6 +603,7 @@ void MainWindow::on_pushButton_begin_shortest_custom_trip_clicked()
 
 void MainWindow::on_pushButton_begin_specific_custom_trip_clicked()
 {
+    graph.loadGraph(graph);
     if(ui->listWidget_selected_stadium->count() > 0)
     {
         graph.nameVector.clear();
@@ -624,6 +641,7 @@ void MainWindow::on_pushButton_mst_clicked()
 
     query->next();
 
+    graph.loadGraph(graph);
     int distance = graph.MST(query->value(0).toString());
 
     QMessageBox message;

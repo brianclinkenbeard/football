@@ -93,6 +93,8 @@ private slots:
 
     void on_pushButton_Distance_Checker_Back_clicked();
 
+    QString getStadiumName(QString teamName);
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db = QSqlDatabase::database();
