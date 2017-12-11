@@ -52,126 +52,147 @@ QComboBox QAbstractItemView:hover{
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stWid">
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_home">
-       <widget class="QPushButton" name="btn_go_to_stadium_capacity">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>130</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Stadium Capacity</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_teams_stadiums">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>180</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Teams and Stadiums</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="adminLoginButton">
-        <property name="geometry">
-         <rect>
-          <x>960</x>
-          <y>30</y>
-          <width>121</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Admin Login</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_team_information">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>230</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Team Information</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_DFS">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>290</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>DFS From Hard Rock</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_BFS">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>350</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>BFS From Lambeau Field</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_distance_checker">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>400</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Distance Checker</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_custom_trip">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>460</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Custom Route</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_mst">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>520</y>
-          <width>161</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Display MST Distance</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_30">
+        <item row="0" column="0" colspan="3">
+         <layout class="QGridLayout" name="gridLayout_29">
+          <item row="0" column="1">
+           <widget class="QPushButton" name="adminLoginButton">
+            <property name="text">
+             <string>Admin Login</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>246</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="0">
+         <spacer name="horizontalSpacer_15">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>485</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="1">
+         <layout class="QGridLayout" name="gridLayout_28">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="btn_go_to_stadium_capacity">
+            <property name="text">
+             <string>Stadium Capacity</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton_teams_stadiums">
+            <property name="text">
+             <string>Teams and Stadiums</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QPushButton" name="pushButton_distance_checker">
+            <property name="text">
+             <string>Distance Checker</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QPushButton" name="pushButton_DFS">
+            <property name="text">
+             <string>DFS From Hard Rock</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QPushButton" name="pushButton_custom_trip">
+            <property name="text">
+             <string>Custom Route</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="pushButton_BFS">
+            <property name="text">
+             <string>BFS From Lambeau Field</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="pushButton_team_information">
+            <property name="text">
+             <string>Team Information</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QPushButton" name="pushButton_mst">
+            <property name="text">
+             <string>Display MST Distance</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="2">
+         <spacer name="horizontalSpacer_16">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>485</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="3" column="1">
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>246</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_stadium_capacity">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -948,7 +969,7 @@ QComboBox QAbstractItemView:hover{
      <x>0</x>
      <y>0</y>
      <width>1152</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
