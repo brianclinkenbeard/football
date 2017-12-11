@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_Trip->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_Summary->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView_select_stadium->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    qsrand(2175734);
     // populate team name combobox for single team info (in constructor so it happens only once)
     QSqlQuery *query = new QSqlQuery(db);
     query->prepare("SELECT DISTINCT TeamName FROM TeamInfo");
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // hide roof count label
     ui->openRoofCountLabel->hide();
+
+    StadiumMap stadiumMap;
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +59,11 @@ void MainWindow::on_btn_go_to_stadium_capacity_clicked()
     while(query->next()){
         seatQuery->prepare("SELECT DISTINCT StadiumName, SeatingCapacity FROM TeamInfo WHERE StadiumName = (:stadium) ");
         QString temp = query->value(0).toString();
+        StadiumMap stadiumMap;
+        MapStadium mapStadium;
+        mapStadium.key = qrand() % 5;
+        mapStadium.name = query->value(0).toString();
+        stadiumMap.doubleHash(mapStadium);
         seatQuery->bindValue(":stadium", temp);
         seatQuery->exec();
         seatQuery->next();
