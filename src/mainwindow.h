@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "login.h"
+#include "stadiummap.h"
 #include <QMainWindow>
 #include <QDialog>
 #include <QSqlDatabase>
