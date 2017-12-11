@@ -29,7 +29,8 @@ SOURCES +=\
     src/login.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/adminwindow.cpp
+    src/adminwindow.cpp \
+    src/stadiummap.cpp
 
 HEADERS  += \
     src/login.h \
@@ -37,7 +38,8 @@ HEADERS  += \
     src/adminwindow.h \
     src/graph.h \
     src/cart.h  \
-    src/stadium.h
+    src/stadium.h \
+    src/stadiummap.h
 
 FORMS    += \
     src/login.ui \
