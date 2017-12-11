@@ -1,7 +1,5 @@
 #include "stadiummap.h"
 
-#include "stadiummap.h"
-
 StadiumMap::StadiumMap()
 {
     MapStadium AVAILABLE = {0, "EMPTY", true};
@@ -14,7 +12,7 @@ void StadiumMap::doubleHash(MapStadium inStadium)
 {
     int single = hash(inStadium.key);
     int prime = hashprime(inStadium.key);
-    std::vector<MapStadium>::const_iterator it = buckets.begin();
+    std::vector<MapStadium>::iterator it = buckets.begin();
 
     if (buckets.at(single).available || buckets.at(single).key == inStadium.key)
     {
@@ -43,7 +41,7 @@ void StadiumMap::doubleHash(MapStadium inStadium)
 
 void StadiumMap::remove(int key)
 {
-    std::vector<MapStadium>::const_iterator it = buckets.begin();
+    std::vector<MapStadium>::iterator it = buckets.begin();
     /* Used to delete data with shortening vector size */
     MapStadium AVAILABLE = {0, "EMPTY", true};
     for (int i = 0; i < 29; i++)
@@ -60,7 +58,7 @@ void StadiumMap::remove(int key)
 void StadiumMap::quadraticHash(MapStadium inStadium)
 {
     int single = hash(inStadium.key);
-    std::vector<MapStadium>::const_iterator it = buckets.begin();
+    std::vector<MapStadium>::iterator it = buckets.begin();
 
     if (buckets.at(single).available || buckets.at(single).key == inStadium.key)
     {
