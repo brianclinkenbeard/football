@@ -992,7 +992,7 @@ void Graph<Type>::startSpecificRoute(Type vertex, int position, int length)
         totalDistance += adjList[location].cost;
         qDebug() << "Going to Stadium: " << adjList[location].name;
         order.append(adjList[location].name);
-        recursiveDijkstra(adjList[location].name,position+1,length);
+        startSpecificRoute(adjList[location].name,position+1,length);
     }
 
     qDebug() << totalDistance;
